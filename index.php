@@ -1,5 +1,4 @@
 <?php
-//test comment for git
 include_once("header.lol");
 renderHeader("lolstack home: Funny original pictures");
 renderRightCol();
