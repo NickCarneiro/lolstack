@@ -186,7 +186,11 @@ $user_id,$nsfw,$alpha,$voted){
 	$effectivevotes = $upvotes - $downvotes;
 	$numcomments = Threaded_comments::commentCount($id);
 	//great way to handle pluralization
-	$commentstring = ($numcomments == 1 ? $numcomments." comment" : $numcomments." comments");
+	if ($numcomments >= 5){
+		$commentstring = ($numcomments == 1 ? $numcomments." comment" : $numcomments." comments");
+	} else {
+		$commentstring = "";
+	}
 	if(is_numeric($voted)){
 		if($voted == 1){
 			$class = "upvote_gray";
