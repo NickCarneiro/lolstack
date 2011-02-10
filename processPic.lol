@@ -97,17 +97,7 @@ else if (isset($_POST['category'])){
 			throw new Exception('<error>Title must be between 1 and 300 characters.</error>');
 						
 		}
-		/*
-		$desclength = strlen(trim($description));
 		
-		if ($desclength == 0){
-			throw new Exception('Description may not be left blank.');	
-		}
-		
-		if (strlen(trim($description)) == 0){
-			throw new Exception('<error>description may not be left blank.</error>');	
-		}
-		*/
 		if (!in_array($category,$categories)){
 			throw new Exception('<error>Invalid category.</error>');
 		}
@@ -186,11 +176,12 @@ else if (isset($_POST['category'])){
 		}
 		
 		//add file to storage system
-		$finaldest = storePic($targetfile,$phash,$filetype);
+		$finaldest = Storage::storePic($targetfile,$phash,$filetype);
 		if(!$finaldest){
 			throw new Exception("<error>Error storing pic.</error>");
 		}
-
+		
+		
 		//parse bbcode in description
 		include_once('Comments.lol');
 		$description = Threaded_comments::bbParse($description_orig);

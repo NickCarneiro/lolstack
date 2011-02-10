@@ -23,7 +23,7 @@ if(isset($_POST['subject'])){
 		if (strlen($body) == 0){
 			throw new Exception("Body must not be left blank.");
 		}
-		$body = mysql_real_escape_string(Threaded_comments::bbParse($body));
+		$body = mysql_real_escape_string($body);
 		$query = "SELECT id from users WHERE username='$to'";
 		$result = mysql_query($query);
 		$rowcount = mysql_num_rows($result);

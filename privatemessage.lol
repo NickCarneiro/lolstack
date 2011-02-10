@@ -18,7 +18,7 @@ echo('
 <h1 class="registertitle">Send a private message</h1>
 
 <form action="javascript:doNothing()" class="submitnewpm">
-	<label for="to">To (username):</label><input class="pmtext_username" type="text" name="to" value="'.$to_username.'"/> <br/>
+	<label for="to">To (user):</label><input class="pmtext_username" type="text" name="to" value="'.$to_username.'"/> <br/>
 	<label for="subject">Subject: </label><input class="pmtext_subject" type="text" name="subject" /><br />
 	<label for="body">Body: </label><textarea class="pmtext_body" name="body"></textarea><br />
 	

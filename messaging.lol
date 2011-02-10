@@ -31,8 +31,9 @@ echo('</div><div class="grid_6 omega entry">');
 renderPMs($notifications);
 echo("
 
-	
+	<br />
 	<span class='pic_instructions'>
+
 	<a href='privatemessage.lol'>
 	Send a private message</a></span>
 	

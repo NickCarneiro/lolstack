@@ -83,7 +83,7 @@ try {
 		$query = sprintf("		
 		SELECT pics.id,pics.title,pics.description,pics.filetype,
 		pics.category,pics.upvotes,pics.downvotes,pics.user_id, 
-		pics.date_added, pics.nsfw,users.username,votes.type
+		pics.date_added, pics.nsfw,pics.phash,users.username,votes.type
 		FROM pics LEFT JOIN (votes)
 		ON (pics.id=votes.picid AND votes.userid=%d)
 		INNER JOIN (users)
@@ -101,7 +101,7 @@ try {
 		$query = sprintf("		
 		SELECT pics.id,pics.title,pics.description,pics.filetype,
 		pics.category,pics.upvotes,pics.downvotes,pics.user_id, 
-		pics.date_added, pics.nsfw,users.username,votes.type
+		pics.date_added, pics.nsfw, pics.phash,users.username,votes.type
 		FROM pics LEFT JOIN (votes)
 		ON (pics.id=votes.picid AND votes.userid=%d)
 		INNER JOIN (users)
@@ -138,7 +138,7 @@ try {
 		
 		echo (renderPic($row['id'], $row['title'], $row['description'],
 		$row['category'],$row['upvotes'],$row['downvotes'],$row['username'],
-		$row['date_added'],$row['category'],$row['user_id'],$row['nsfw'],$alpha,$voted));
+		$row['date_added'],$row['category'],$row['user_id'],$row['nsfw'],$alpha,$voted,$row['phash']));
 		$i++;
 	}
 } catch (Exception $e){
@@ -182,7 +182,7 @@ function renderPagination($lastpage){
 }
 function renderPic($id,$title,$description,$category,
 $upvotes,$downvotes,$username,$timesubmitted,$category,
-$user_id,$nsfw,$alpha,$voted){
+$user_id,$nsfw,$alpha,$voted,$phash){
 	$effectivevotes = $upvotes - $downvotes;
 	$numcomments = Threaded_comments::commentCount($id);
 	//great way to handle pluralization
@@ -215,7 +215,17 @@ $user_id,$nsfw,$alpha,$voted){
 			<a href='javascript:;' class='votebutton ".($class != false ? $class : 'downvote')."' id='downvote_button$id'></a>
 			
 		</span>
-	</div>
+	</div>";
+	$directory = substr($timesubmitted,0,10); //get date from mysql datetime
+	if(file_exists("/srv/uploads/$directory/".$phash."_112x70.jpeg")){
+		$imgsrc = "http://uploads.lolstack.com/$directory/".$phash."_112x70.jpeg";
+	} else {
+		$imgsrc = "images/nothumb.jpg";
+	}
+	$output .= "
+	<a href='pic.lol?id=$id&title=$urltitle'>
+	<img class='thumb' src='$imgsrc' />
+	</a>
 	<div class='linkcontainer'>
 		<span class='link'>
 			<a href='pic.lol?id=$id&title=$urltitle'> $title </a> 

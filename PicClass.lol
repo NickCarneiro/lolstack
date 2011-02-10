@@ -1,6 +1,8 @@
 <?php
 include_once("header.lol");
 //responsible for adding pics to db and filesystem
+// for bots, not regular users. This file will be
+// deprecated once the bots are disabled.
 class PicClass {
 
 
@@ -99,7 +101,7 @@ class PicClass {
 			}
 			
 			//add file to storage system
-			$finaldest = storePic($targetfile,$phash,$filetype);
+			$finaldest = Storage::storePic($targetfile,$phash,$filetype);
 			if(!$finaldest){
 				unlink($targetfile);
 				throw new Exception("Error storing pic.");

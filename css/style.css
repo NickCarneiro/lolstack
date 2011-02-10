@@ -191,13 +191,13 @@ outline:none;
 .linkcontainer{
 	min-height:55px;
 	
-	margin-left:30px;
+	margin-left:142px;
 }
 
 .detailscontainer{
 	
 	
-	margin-left:30px;
+	margin-left:142px;
 }
 
 .showhide{
@@ -256,8 +256,8 @@ outline:none;
 }
 
 
-.login {
-background: white;
+.tab_orange {
+background: #F05A22;
  height:36px;
 -moz-border-radius-bottomright: 8px;
 border-bottom-right-radius: 8px;
@@ -266,6 +266,15 @@ border-bottom-left-radius: 8px;
 text-align:center;
 }
 
+.tab_white{
+	background: white;
+	 height:36px;
+	-moz-border-radius-bottomright: 8px;
+	border-bottom-right-radius: 8px;
+	-moz-border-radius-bottomleft: 8px;
+	border-bottom-left-radius: 8px;
+	text-align:center;
+}
 .contact{
 display: inline-block;
 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -288,6 +297,19 @@ a.loginlink:link {color: #403B33; text-decoration: none; }
 a.loginlink:visited {color: #403B33; text-decoration: none; }
 a.loginlink:hover {color: #403B33; text-decoration: underline; }
 a.loginlink:active {color: #403B33; }
+
+.loginlink_white{
+display: inline-block;
+margin-top:6px;
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+font-size:18px;
+font-weight:bold;
+}
+
+a.loginlink_white:link {color: white; text-decoration: none; }
+a.loginlink_white:visited {color: white; text-decoration: none; }
+a.loginlink_white:hover {color: white; text-decoration: underline; }
+a.loginlink_white:active {color: white; }
 
 
 
@@ -565,6 +587,12 @@ div.reply_comment_container {
 	margin-right:5px;
 	text-align:center;
 	min-height:100%;
+}
+.thumb{
+	position:absolute;
+	left:25px;
+	top:0px;
+
 }
 .commentlink{
 	font-family: 'Lucida Grande', sans-serif;

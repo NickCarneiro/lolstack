@@ -40,6 +40,10 @@ if (isset($_POST['delete'])){
 	unlink("/srv/uploads/$directory/$phash.$filetype");
 	echo("deleted pic from filesystem <br>");
 	
+	//delete thumbnail if it exists
+	if(file_exists("/srv/uploads/$directory/".$phash."_112x70.jpeg")){
+		unlink("/srv/uploads/$directory/".$phash."_112x70.jpeg");
+	}
 	//delete pic from database
 	$query = "DELETE FROM pics WHERE id=$deleteid";
 	$result = mysql_query($query);

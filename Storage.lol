@@ -5,69 +5,124 @@ class Storage{
 returns true if hash doesn't exist and adjacent hashes are far enough away
 returns id of matching pic if a pic is too close of a match
 */
-public static function checkHash($phash){
-	
-	$query = "SELECT id from pics WHERE phash='".$phash."'";
-	$result = mysql_query($query); 
-	if (!$result){
-		error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
-		throw new Exception("Database trouble.");
-	}
-	$num_rows = mysql_num_rows($result);
-	$row = mysql_fetch_row($result);
-	if ($num_rows > 0){
-		//a pic matches exactly
+	public static function checkHash($phash){
 		
-		error_log("exact match: ".$row[0]);
-		return $row[0];
+		$query = "SELECT id from pics WHERE phash='".$phash."'";
+		$result = mysql_query($query); 
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			throw new Exception("Database trouble.");
+		}
+		$num_rows = mysql_num_rows($result);
+		$row = mysql_fetch_row($result);
+		if ($num_rows > 0){
+			//a pic matches exactly
+			
+			error_log("exact match: ".$row[0]);
+			return $row[0];
+			
+		}
+		
+		
+		//$startTime = time();
+		$hashResult = Phash::checkPhash($phash);
+		//error_log("phash comparison time: ".(time() - $startTime)." seconds");
+		if($hashResult == -1){
+			//no matching pics found
+			return true;
+		} else {
+			//phash returns a string like "4:15:1234567891:1234567891" ie "matching pic id:hamming distance:phash to check:matching phash"
+			$match = explode(":",$hashResult);
+			$matchingpic = $match[0];
+			
+			error_log("matched ".$matchingpic." distance: ".$match[1]." hash to check: ".$match[2]." matching hash: ".$match[2]);
+			//pic found within matching ham distance
+			return $matchingpic;
+		}
+		
 		
 	}
 	
-	
-	//$startTime = time();
-	$hashResult = Phash::checkPhash($phash);
-	//error_log("phash comparison time: ".(time() - $startTime)." seconds");
-	if($hashResult == -1){
-		//no matching pics found
-		return true;
-	} else {
-		//phash returns a string like "4:15:1234567891:1234567891" ie "matching pic id:hamming distance:phash to check:matching phash"
-		$match = explode(":",$hashResult);
-		$matchingpic = $match[0];
-		
-		error_log("matched ".$matchingpic." distance: ".$match[1]." hash to check: ".$match[2]." matching hash: ".$match[2]);
-		//pic found within matching ham distance
-		return $matchingpic;
-	}
-	
-	
-}
-}
-/**
-returns path to file on success, false on failure
-*/
-function storePic($sourcefile,$phash,$filetype){
-	try {
-		$targetdir = "/srv/uploads/".date("Y-m-d");
-		if (!file_exists($targetdir)){
-			if(!mkdir($targetdir)){
-				throw new Exception("Could not create $targetdir");
+		/**
+	returns path to file on success, false on failure
+	*/
+	function storePic($sourcefile,$phash,$filetype){
+		try {
+			$targetdir = "/srv/uploads/".date("Y-m-d");
+			if (!file_exists($targetdir)){
+				if(!mkdir($targetdir)){
+					throw new Exception("Could not create $targetdir");
+				}
 			}
+			$target = $targetdir."/".$phash.".".$filetype;
+			if (!copy($sourcefile, $target)){
+				throw new Exception("Could not copy $sourcefile to $target");
+			}
+			if(!unlink($sourcefile)){
+				throw new Exception("Could not delete $sourcefile");
+			}
+
+			//create thumbnail and save in same directory with pic
+			Storage::Create_Thumbnail($target,$targetdir."/".$phash."_112x70.jpeg");
 		}
-		$target = $targetdir."/".$phash.".".$filetype;
-		if (!copy($sourcefile, $target)){
-			throw new Exception("Could not copy $sourcefile to $target");
+		catch(Exception $e) {
+			error_log($e->getMessage());
+			return false;
 		}
-		if(!unlink($sourcefile)){
-			throw new Exception("Could not delete $sourcefile");
-		}		
+		return $target;
 	}
-	catch(Exception $e) {
-		error_log($e->getMessage());
-		return false;
+	
+	/*returns true on success, false on failure
+	$origPath is path to the big image to shrink
+	$thumbDest is the desired output location for the thumbnail
+	*/
+	public static function Create_Thumbnail($origPath, $thumbDest){
+		//this will break if there is more than one "." in the path
+		$extArray = explode(".",$origPath);
+		$extension = $extArray[1];
+		if($extension == "jpeg"){
+			$src_img = imagecreatefromjpeg($origPath);
+		} else if($extension == "png"){
+			$src_img = imagecreatefrompng($origPath);
+		} else if($extension == "gif"){
+			$src_img = imagecreatefromgif($origPath);
+		} else {
+			//unknown ext
+			error_log("unknown extenstion: ".$extension);
+			return false;
+		}
+		$old_x=imageSX($src_img);
+		$old_y=imageSY($src_img);
+		$new_w = 112;
+		$new_h = 70;
+		//reduce the shorter dimension to 112 or 70,
+		//scale the other dimension proportionally
+		if ($old_x < $old_y) {
+			$thumb_w=$new_w;
+			$thumb_h=$old_y*($new_w/$old_x);
+			error_log("long image");
+		}
+		else {
+			$thumb_h=$new_h;
+			$thumb_w=$old_x*($new_h/$old_y);
+			error_log("wide image");
+		}
+		
+		
+		$dst_img=ImageCreateTrueColor($new_w,$new_h);
+		//fill background with white
+		$bgColor = imagecolorallocate($dst_img, 255,255,255);
+		imagefilledrectangle($dst_img, 0, 0, $new_w-1, $new_h-1, $bgColor);
+		
+		imagecopyresampled($dst_img,$src_img,0,0,0,0,$thumb_w,$thumb_h,$old_x,$old_y);
+		//crop shrunken image to 112 x 70
+		imagejpeg($dst_img,$thumbDest); 
+		imagedestroy($dst_img); 
+		imagedestroy($src_img);
+		return true;
 	}
-	return $target;
 }
+
 
 
 function mirrorPic($picid, $path){

@@ -134,7 +134,7 @@ echo('</div>
 	
 </div>
 
-<div class="grid_2 login">
+<div class="grid_2 tab_white">
 ');
 if(!isLoggedIn()){
 	echo('<a href="about.lol" class="loginlink">About</a>');
@@ -144,23 +144,26 @@ if(!isLoggedIn()){
 echo('
 </div>
 
-<div class="grid_2 login">');
+<div class="grid_2 tab_orange">');
 if(isLoggedIn()){
-	echo('<a href="submitpic.lol" class="loginlink">Upload</a>');
+	echo('<a href="submitpic.lol" class="loginlink_white">Upload</a>');
 }
 else {
-	echo('<a href="register.lol" class="loginlink_glow">Join</a>');
+	echo('<a href="register.lol" class="loginlink_white">Join</a>');
 }
-echo('</div>
+echo('</div>');
 
-<div class="grid_2 login omega">');
+
 if(isLoggedIn()){
+	echo('<div class="grid_2 tab_white omega">');
 	echo('<a href="logout.lol" class="loginlink">Logout</a>');
 
 } else {
-	echo('<a href="javascript:doNothing();" id="toploginlink" class="loginlink">Login</a>');
+	echo('<div class="grid_2 tab_orange omega">');
+	echo('<a href="javascript:doNothing();" id="toploginlink" class="loginlink_white">Login</a>');
 
 }
+//echo('</div>');
 if(isLoggedIn()){
 		$user = new User();
 		$notifications = $user->notificationCount($_SESSION['userid']);

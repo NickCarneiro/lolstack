@@ -83,13 +83,13 @@ if (isset($_GET['from_id']) && is_numeric($_GET['from_id'])){
 		echo('<a class="username" href="userInfo.lol?id='.$from_id.'">
 		'.$row['username'].'</a>
 		');
-		echo("<span class='commentlink'>".htmlentities($row['subject'])."</span>");
+		echo("<span class='commentlink'>".htmlentities($row['subject'],ENT_QUOTES,'UTF-8')."</span>");
 		echo('
 		<span class="commentlink">'
 		.date("F j, Y, g:i a",convert_datetime($row['date'])).
 		"</span> <br />");
 		
-		echo('<span class="commenttext">'.$row['body']."</span></div></div><br /><br />");
+		echo('<span class="commenttext">'.Threaded_Comments::bbParse(htmlentities($row['body'],ENT_QUOTES,'UTF-8'))."</span></div></div><br /><br />");
 	}
 	
 } else {
