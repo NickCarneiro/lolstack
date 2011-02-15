@@ -10,6 +10,9 @@ body {
 .menu_body li a{color:#FFFFFF; text-decoration:none; padding:10px; display:block;}
 .menu_body li a:hover{padding:15px 10px; font-weight:bold;}
 
+.menuarrow{
+margin-left: 5px;
+}
 .navlist{
 list-style-type: none;
 padding: 0px;

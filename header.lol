@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include_once("Database.lol");
 include_once("User.lol");
 include_once("Auth.lol");
@@ -103,7 +103,7 @@ echo('<div id="wrapper">
 </div>
 <div class="grid_2">
          <dl id="category" class="dropdown_cat">
-        <dt><a href="#"><span>'.$headercat.'</span></a></dt>
+        <dt><a href="#"><span>'.$headercat.'<img class="menuarrow" src="images/arrow.png" /></span></a></dt>
         <dd>
             <ul>');
 //print out li entries for each category	
@@ -119,7 +119,7 @@ echo('
 echo('</div>
 <div class="grid_2">
          <dl id="timeframe" class="dropdown_time">
-        <dt><a href="#"><span>'.$headerdate.'</span></a></dt>
+        <dt><a href="#"><span>'.$headerdate.'<img class="menuarrow" src="images/arrow.png" /></span></a></dt>
         <dd>
             <ul>
                 <li><a href="/?date=today&category='.$headercat.'">Today</a></li>
