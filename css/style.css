@@ -80,6 +80,9 @@ label
 	color: #403B33;
 }
 
+.textright{
+	text-align:right;
+}
 .replylist{
 	list-style: none;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -1099,8 +1102,10 @@ div.rightcol {
 border:3px solid #777777;
 }
 .searchtext {
-height: 30px;
-width: 266px;
+
+left:0px;
+height: 28px;
+width: 260px;
 color: #c2c2c2;
 font-family: 'Lucida Grande', sans-serif;
 font-weight: normal;
@@ -1109,7 +1114,24 @@ border-bottom-right-radius: 0px 0px;
 border-top-right-radius: 0px 0px;
 border: 0px;
 margin: 0px;
+background:white;
 }
+input.searchsubmit{
+position:absolute;
+right:0px;
+height: 30px;
+width:70px;
+font-size: 18px;
+color:#46433a;
+border: 0px;
+margin: 0px;
+right:0px;
+}
+input.searchsubmit:hover{
+color:#F05A22;
+
+}
+
 
 .searchtext_searchpage {
 height: 30px;
@@ -1184,23 +1206,6 @@ div.toplinks{
 display:inline-block;
 }
 
-input.searchsubmit{
-height: 32px;
-width:70px;
-font-size: 18px;
-color:#46433a;
-border: 0px;
-margin: 0px;
-float:right;
-}
-input.searchsubmit:hover{
-height: 32px;
-width:70px;
-font-size: 18px;
-color:#F05A22;
-border: 0px;
-margin: 0px;
-}
 
 .forwardarrow{
 float:right;

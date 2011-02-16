@@ -138,6 +138,12 @@ function renderResults($results,$totalResults){
 	
 		$urltitle = sanitize_url($pic['title']);
 		$nsfwstring = $pic['nsfw'] == 1 ? "<span style=\"color:red\">nsfw</span>" : "";
+		$directory = substr($pic['date_added'],0,10); //get date from mysql datetime
+		if(file_exists("/srv/uploads/$directory/".$pic['phash']."_112x70.jpeg")){
+			$imgsrc = "http://uploads.lolstack.com/$directory/".$pic['phash']."_112x70.jpeg";
+		} else {
+			$imgsrc = "images/nothumb.jpg";
+		}
 		echo("
 		<div class='entry grid_10'>
 		<div class='votepack'>
@@ -150,6 +156,9 @@ function renderResults($results,$totalResults){
 			
 		</span>
 		</div>
+		<a href='pic.lol?id=$pic[id]&title=$urltitle'>
+		<img class='thumb' src='$imgsrc' />
+		</a>
 		<div class='linkcontainer'>
 		<span class='link'>
 			<a href='pic.lol?id=$pic[id]&title=$urltitle'> $pic[title] </a> 
