@@ -274,7 +274,7 @@ function renderRightCol(){
 	}
 	echo('
 	<div class="grid_6 entry centertext entryhover" onClick="javascript:window.location=\'submitpic.lol\'">
-	<a href="submitpic.lol"><span class="instructions upload">Upload an image</span> <img class="forwardarrow" src="images/forwardarrow.png"></a>
+	<a class="uploadlink" href="submitpic.lol">Upload an image</span></a> 
 	</div>
 	
 	<div class="grid_6 omega entryguy">

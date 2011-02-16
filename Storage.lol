@@ -95,8 +95,13 @@ returns id of matching pic if a pic is too close of a match
 		$old_y=imageSY($src_img);
 		$new_w = 112;
 		$new_h = 70;
+		
 		//reduce the shorter dimension to 112 or 70,
 		//scale the other dimension proportionally
+		
+		
+		// scale dimensions down, then scale up
+		// to maximize 112x70 box.
 		if ($old_x < $old_y) {
 			$thumb_w=$new_w;
 			$thumb_h=$old_y*($new_w/$old_x);
@@ -107,6 +112,14 @@ returns id of matching pic if a pic is too close of a match
 			$thumb_w=$old_x*($new_h/$old_y);
 			error_log("wide image");
 		}
+		
+		while($thumb_w < $new_w || $thumb_h < $new_h){
+			$thumb_h++;
+			$thumb_w++;
+		}
+		
+		
+		
 		
 		
 		$dst_img=ImageCreateTrueColor($new_w,$new_h);

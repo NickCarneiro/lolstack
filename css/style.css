@@ -24,6 +24,15 @@ font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	
 }
 
+.votes_count{
+	display: inline-block;
+	height:20px;
+	width:20px;
+	margin: 0 auto;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size:100%;
+	color: #403B33;
+}
 .navlist li{
 margin-left: 0;
 padding-left: 0;
@@ -124,6 +133,21 @@ td.title_col{
 	color:#403B33;
 	text-decoration:none;
 }
+.centertext{
+	position:relative;
+	text-align:center;
+}
+.uploadlink {
+	display:inline-block;
+	
+	margin-top:10px;
+	margin-bottom:10px;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size:20px;
+	color:#403B33;
+	text-decoration:none;
+}
+
 .welcomeheadline{
 	display:inline-block;
 	margin-left:10px;
