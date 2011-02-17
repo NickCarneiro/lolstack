@@ -8,7 +8,7 @@ try {
 	if (isset($_GET['date'])){
 		switch($_GET['date']){
 		  case "today":
-				$date = strtotime("today");
+				$date = strtotime("-24 hours");
 				break;
 			case "week":
 				$date = strtotime("-1 week");
@@ -29,7 +29,7 @@ try {
 		}
 	}
 	else {
-		$date = strtotime("today");
+		$date = strtotime("-24 hours");
 	}
 	
 	if (isset($_GET['category'])){
