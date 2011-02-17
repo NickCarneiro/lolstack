@@ -10,7 +10,7 @@
 <div id="footer">
 <a href="/" class="footer">Home</a> | <a href="about.lol" class="footer">About</a> 
 | <a href="contact.lol" class="footer">Contact</a> | 
-<a href="terms.lol" class="footer">Terms of Service</a> | <a href="http://trillworks.com" class="footer">© 2010
+<a href="terms.lol" class="footer">Terms of Service</a> | <a href="http://trillworks.com" class="footer">© <?php echo(date("Y")." ");?>
 Trillworks LLC</a>
 
 </div>

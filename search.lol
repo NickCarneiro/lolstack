@@ -11,6 +11,7 @@ if(isset($_GET['searchterms'])){
 		$perpage = 15;
 		$totalResults = 0;
 		$lastpage = initializePagination($searchString,$perpage);
+		
 		$searchResults = Search::titleSearch($searchString);
 	}
 	
