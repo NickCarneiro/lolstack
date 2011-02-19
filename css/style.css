@@ -220,14 +220,13 @@ outline:none;
 
 .linkcontainer{
 	min-height:55px;
-	
 	margin-left:142px;
 }
 
 .detailscontainer{
 	
-	
 	margin-left:142px;
+	
 }
 
 .showhide{
@@ -603,12 +602,11 @@ div.reply_comment_container {
 }
 
 .votepack{
-	position:absolute;
-	left:0px;
-	top:0px;
-	
+	float:left;
+	background:#d8f0f0;
 	margin-right:5px;
 	text-align:center;
+	width:25px;
 	
 }
 .commentvotepack{
@@ -622,7 +620,6 @@ div.reply_comment_container {
 	position:absolute;
 	left:25px;
 	top:0px;
-
 }
 .commentlink{
 	font-family: 'Lucida Grande', sans-serif;
