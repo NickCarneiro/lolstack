@@ -18,11 +18,11 @@ echo('
 <h1 class="registertitle">Send a private message</h1>
 
 <form action="javascript:doNothing()" class="submitnewpm">
-	<label for="to">To (user):</label><input class="pmtext_username" type="text" name="to" value="'.$to_username.'"/> <br/>
-	<label for="subject">Subject: </label><input class="pmtext_subject" type="text" name="subject" /><br />
-	<label for="body">Body: </label><textarea class="pmtext_body" name="body"></textarea><br />
+	<label class="pmlabel"  for="to">To (user):</label><input class="pmtext_username" type="text" name="to" value="'.$to_username.'"/> <br/>
+	<label class="pmlabel"  for="subject">Subject: </label><input class="pmtext_subject" type="text" name="subject" /><br />
+	<label class="pmlabel"  for="body">Body: </label><textarea class="pmtext_body" name="body"></textarea><br />
 	
-	<label for="submit"></label><input class="pmsubmit" type="submit" name="submit" value="Send message">
+	<label class="pmlabel"  for="submit"></label><input class="pmsubmit" type="submit" name="submit" value="Send message">
 </form>
 
 

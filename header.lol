@@ -102,7 +102,7 @@ echo('<div id="wrapper">
 </a>
 </div>
 <div class="grid_2">
-         <dl id="category" class="dropdown_cat">
+         <dl id="category" class="dropdown_cat dropdown">
         <dt><a href="#"><span>'.$headercat.'<img class="menuarrow" src="images/arrow.png" /></span></a></dt>
         <dd>
             <ul>');
@@ -118,7 +118,7 @@ echo('
 	
 echo('</div>
 <div class="grid_2">
-         <dl id="timeframe" class="dropdown_time">
+         <dl id="timeframe" class="dropdown_time dropdown">
         <dt><a href="#"><span>'.$headerdate.'<img class="menuarrow" src="images/arrow.png" /></span></a></dt>
         <dd>
             <ul>
@@ -155,8 +155,18 @@ echo('</div>');
 
 
 if(isLoggedIn()){
-	echo('<div class="grid_2 tab_white omega">');
-	echo('<a href="logout.lol" class="loginlink">Logout</a>');
+	
+	echo('<div class="grid_2 omega">');
+	echo(' <dl id="more" class="dropdown_more dropdown">
+        <dt><a href="#"><span>More<img class="menuarrow" src="images/arrow.png" /></span></a></dt>
+        <dd>
+            <ul>
+                <li><a href="account.lol">Account</a></li>
+				<li><a href="logout.lol">Logout</a></li>
+            </ul>
+        </dd>
+    </dl>
+	');
 
 } else {
 	echo('<div class="grid_2 tab_orange omega">');

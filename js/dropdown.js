@@ -1,12 +1,24 @@
  var droppedDown = "";
  $(document).ready(function() {
-
-	//$(".dropdown img.flag").addClass("flagvisibility");
+ 
+	$(".dropdown_more dt a").click(function() {
+		
+		$(".dropdown_more dd ul").toggle();
+		droppedDown = "more";
+		
+	});
+	
+	
+	$(".dropdown_more dd ul li a").click(function() {
+		var text = $(this).html();
+		$(".dropdown_more dd ul").hide();
+	});
+	
 	$(".dropdown_cat dt a").click(function() {
-		
-		
+
 		$(".dropdown_cat dd ul").toggle();
 		droppedDown = "cat";
+		
 	});
 	
 	
@@ -14,6 +26,7 @@
 		var text = $(this).html();
 		//$(".dropdown_cat dt a span").html(text);
 		$(".dropdown_cat dd ul").hide();
+		
 	   // $("#result").html("Selected value is: " + getSelectedValue("sample"));
 	});
 	
@@ -42,6 +55,10 @@
 		} 
 		if( !$clicked.parents().hasClass("dropdown_time")) {
 			$(".dropdown_time dd ul").hide();
+		}
+		
+		if( !$clicked.parents().hasClass("dropdown_more")) {
+			$(".dropdown_more dd ul").hide();
 		}
 	});
 	

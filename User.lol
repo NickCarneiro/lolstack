@@ -290,5 +290,23 @@ class User {
 			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
 		}
 	}
+	
+	//returns true if password is correct for userid
+	public static function verifyPassword($userid,$password){
+		$query = "SELECT password FROM users WHERE id=$userid";
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		$row = mysql_fetch_row($result);
+		$dbpassword = $row[0];
+		
+		if($dbpassword == md5($password)){
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 ?>

@@ -217,7 +217,7 @@ $user_id,$nsfw,$alpha,$voted,$phash){
 		</span>
 	</div>";
 	$directory = substr($timesubmitted,0,10); //get date from mysql datetime
-	if(file_exists("/srv/uploads/$directory/".$phash."_112x70.jpeg")){
+	if(file_exists("/srv/uploads/$directory/".$phash."_112x70.jpeg") && $nsfw != 1){
 		$imgsrc = "http://uploads.lolstack.com/$directory/".$phash."_112x70.jpeg";
 	} else {
 		$imgsrc = "images/nothumb.jpg";
