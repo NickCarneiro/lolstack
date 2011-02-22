@@ -161,7 +161,10 @@ if(isLoggedIn()){
         <dt><a href="#"><span>More<img class="menuarrow" src="images/arrow.png" /></span></a></dt>
         <dd>
             <ul>
-                <li><a href="account.lol">Account</a></li>
+                <li><a href="account.lol">Account Settings</a></li>
+				<li><a href="userInfo.lol?id='.$_SESSION['userid'].'">Public Profile</a></li>
+				<li><a href="about.lol">About</a></li>
+				<li><a href="contact.lol">Contact</a></li>
 				<li><a href="logout.lol">Logout</a></li>
             </ul>
         </dd>
@@ -180,7 +183,7 @@ if(isLoggedIn()){
 		$plural = ($notifications > 1 || $notifications ==0 ? "notifications" : "notification");
 		
 		echo('<span class="statustext grid_8 pull_8">
-		Welcome, <a href="userInfo.lol?id='.$_SESSION['userid'].'">
+		Welcome, <a href="account.lol">
 		'.$_SESSION['username'].'</a>. '); 
 		if($notifications > 0){
 			echo('You have '.$notifications.' new <a href="messaging.lol">'.$plural.'.</a></span>');
