@@ -866,15 +866,16 @@ font-size:18px;
 }
 
 .registerbutton{
+display:inline-block;
 width:100px;
-margin-right:20px;
+
 margin-top:6px;
 margin-bottom:6px;
 background:#A8D8D8;
-border:5px solid #777777;
+border:0px;
 -moz-border-radius:8px;
 border-radius: 8px;
-height:30px;
+height:40px;
 }
 
 .registerbutton:hover{
@@ -904,7 +905,7 @@ background:#A8D8D8;
 border:0px;
 -moz-border-radius:8px;
 border-radius: 8px;
-height:30px;
+height:40px;
 }
 
 .loginbutton:hover{

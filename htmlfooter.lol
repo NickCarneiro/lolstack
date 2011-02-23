@@ -18,12 +18,22 @@ Trillworks LLC</a>
 <div class='hidden modal_login' id='logindialog'>
 <div class="center_form">
 	<form action='login.lol' method='POST'>
-	<label for="username_modal">Username:</label> <input class='logintext' id="username_modal" name='username' type='text' /> <br />
-	<label for="password_modal">Password:</label>  <input class='logintext' id="password_modal" name='password' type='password' /> <br />
-	<input name='submit' type='submit' value='Log in' class='loginbutton' /><br />
+	<label for="username_modal">Username:</label> <input class='registertext' id="username_modal" name='username' type='text' /> <br />
+	<label for="password_modal">Password:</label>  <input class='registertext' id="password_modal" name='password' type='password' /> <br />
 	<input type='hidden' name='currentpage' value='<?php echo Auth::curPageURL();?>' />
+
+		<input name="submit" class="registerbutton" type="submit" value="Log in" /> <br /> 
+
 	</form><br />
-	<span>Don't have an account yet? <br /><a class="gloworange" href="register.lol">Join today!</a><span>
+	<span>Don't have an account yet? </span><br />
+	
+	<form action="register.lol" method="POST">
+	<label for="username">Username:</label> <input class="registertext" name="username" type="text" /> <br /> 
+	<label for="password1">Password:</label> <input class="registertext" name="password1" type="password" /> <br /> 
+	<label for="password2">Confirm:</label> <input class="registertext" name="password2" type="password" /> <br /> 
+	<input name="submit" class="registerbutton" type="submit" value="Join!" /> <br /> 
+	</form>
+	
 	</div>
 </div>
 

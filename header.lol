@@ -173,7 +173,7 @@ if(isLoggedIn()){
 
 } else {
 	echo('<div class="grid_2 tab_orange omega">');
-	echo('<a href="javascript:doNothing();" id="toploginlink" class="loginlink_white">Login</a>');
+	echo('<a href="javascript:doNothing();" id="toploginlink" class="loginlink_white">Log in</a>');
 
 }
 //echo('</div>');

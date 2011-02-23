@@ -152,7 +152,7 @@ $(document).ready(function(){
 	
 	$("#toploginlink").live('click', function () {
 		
-		$( "#logindialog" ).dialog({ title: 'Login for even more fun!' });
+		$( "#logindialog" ).dialog({ title: 'Log in for even more fun!' });
 		$('#logindialog').dialog('open');	
 	});
 	
