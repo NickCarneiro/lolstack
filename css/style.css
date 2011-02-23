@@ -652,6 +652,14 @@ a.username{
 	
 	margin:3px;
 }
+
+.statustext{
+	display:inline-block;
+	font-size: 14px;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	margin:10px;
+	
+}
 input.pmsubmit{
 
 height: 30px;
@@ -660,7 +668,8 @@ font-size: 18px;
 color:#46433a;
 border: 0px;
 margin: 0px;
-
+margin-top:5px;
+margin-bottom:5px;
 }
 input.pmsubmit:hover{
 height: 30px;
@@ -668,7 +677,6 @@ height: 30px;
 font-size: 18px;
 color:#F05A22;
 border: 0px;
-margin: 0px;
 
 }
 
@@ -866,6 +874,7 @@ font-size:18px;
 }
 
 .registerbutton{
+
 display:inline-block;
 width:100px;
 
