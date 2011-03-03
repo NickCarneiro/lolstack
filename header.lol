@@ -7,12 +7,12 @@ include_once("Storage.lol");
 include_once("Imgur.lol");
 include_once("Comments.lol");
 include_once("Notifications.lol");
+include_once("Categories.lol");
 session_start();
 Database::DatabaseConnect();
 date_default_timezone_set('America/Chicago');
 
-//keep these all lowercase
-$categories = Array('all','funny','wtf','political','trees','cute');
+
 
 if (isset($_GET['date'])){
 	$headerdate = $_GET['date'];

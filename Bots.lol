@@ -1,6 +1,6 @@
 <?php
 include("header.lol");
-include_once("PicClass.lol");
+include_once("BotGlue.lol");
 class Bots {
 	public static function createBot($username){
 		//adds a bot to the users table (privilege level = 2)

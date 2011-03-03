@@ -25,7 +25,7 @@ try {
 				
 				break;
 			default:
-				$date = strtotime("today");
+				$date = strtotime("-24 hours");
 		}
 	}
 	else {

@@ -97,7 +97,7 @@ class User {
 	* returns array of keys username, join_date,last_login
 	*/
 	public static function getVitals($userid){
-		$query = sprintf("SELECT username,join_date,last_login,email FROM users WHERE id=%d",
+		$query = sprintf("SELECT username,join_date,last_login,email,lolbucks FROM users WHERE id=%d",
 		mysql_real_escape_string($userid));
 	
 		$result = mysql_query($query);
@@ -110,6 +110,7 @@ class User {
 		$vitals['join_date'] = $row[1];
 		$vitals['last_login'] = $row[2];
 		$vitals['email'] = $row[3];
+		$vitals['lolbucks'] = $row[4];
 		return $vitals;
 	
 	}
