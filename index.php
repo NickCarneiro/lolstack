@@ -184,7 +184,7 @@ function renderPic($id,$title,$description,$category,
 $upvotes,$downvotes,$username,$timesubmitted,$category,
 $user_id,$nsfw,$alpha,$voted,$phash){
 	$effectivevotes = $upvotes - $downvotes;
-	$numcomments = Threaded_comments::commentCount($id);
+	$numcomments = Comments::commentCount($id);
 	//great way to handle pluralization
 	if ($numcomments >= 5){
 		$commentstring = ($numcomments == 1 ? $numcomments." comment" : $numcomments." comments");

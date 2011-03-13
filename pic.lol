@@ -50,7 +50,7 @@ if (isset($_GET['id'])){
 			echo('</div>');
 			
 			echo ('<div id="picdescription">'.
-			Threaded_Comments::bbParse(htmlentities($row['description'],ENT_QUOTES,'UTF-8')).
+			Comments::bbParse(htmlentities($row['description'],ENT_QUOTES,'UTF-8')).
 			'</div>');
 			
 			//edit link if pic belongs to current user
@@ -125,7 +125,7 @@ benbenben
 				');
 			//render comments
 	
-			$threaded_comments = new Threaded_comments($id);
+			$threaded_comments = new Comments($id);
 			$threaded_comments->print_comments();
 			echo('<div class="grid_16 overlapbug omega">
 				

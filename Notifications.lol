@@ -1,5 +1,43 @@
 <?php 
 class Notifications {
+
+//handle all notifications for a comment
+//returns false if something goes wrong
+public static function pushCommentNotifications($parentid, $picid){
+//add notification for parent
+	if (is_numeric($parentid)){
+		//get userid that posted parentid comment
+		$query = "SELECT userid FROM comments WHERE commentid=$parentid";
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			throw new Exception('<error>database trouble</error>');
+		}
+		$row = mysql_fetch_row($result);
+		$parentuserid = $row[0];
+		if(!Notifications::addNotification($parentuserid, "commentreply")){
+			error_log("Error adding notification for commentreply");
+			return false;
+		}
+	}
+	else {
+		//parent must be null. add notification for pic reply
+		//get userid that posted parentid comment
+		$query = sprintf("SELECT user_id FROM pics WHERE id=%d",
+		mysql_real_escape_string($picid));
+		$result = mysql_query($query);
+		if (!$result){
+			throw new Exception('database trouble');
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+		}
+		$row = mysql_fetch_row($result);
+		$picuserid = $row[0];
+		if(!Notifications::addNotification($picuserid, "picreply")){
+			error_log("Error adding notification for picreply");
+			return false;
+		}
+	}
+}
 	public static function addNotification($user_id, $type){
 		if($type == "message"){
 			$query = "UPDATE notifications SET messagecount=messagecount+1 

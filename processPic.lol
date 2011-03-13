@@ -70,7 +70,7 @@ else if (isset($_POST['descformarea'])){
 			throw new Exception("<error>Database trouble.</error>");
 		}
 		
-		echo("<desc>".Threaded_comments::bbParse(htmlentities($newdesc,ENT_QUOTES,'UTF-8'))."</desc>");
+		echo("<desc>".Comments::bbParse(htmlentities($newdesc,ENT_QUOTES,'UTF-8'))."</desc>");
 	}catch(Exception $e){
 		echo $e->getMessage();
 	}
@@ -184,7 +184,7 @@ else if (isset($_POST['category'])){
 		
 		//parse bbcode in description
 		include_once('Comments.lol');
-		$description = Threaded_comments::bbParse($description_orig);
+		$description = Comments::bbParse($description_orig);
 		
 		//insert entry in database
 		$query = sprintf("INSERT INTO pics (title,description,description_orig,md5,phash,user_id,filetype,date_added,category,nsfw) 

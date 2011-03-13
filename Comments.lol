@@ -1,5 +1,5 @@
 <?php
-class Threaded_comments{
+class Comments{
 
     public $parents  = array();
     public $children = array();
@@ -25,6 +25,53 @@ class Threaded_comments{
         }
     }
 	
+	public static function addComment($picid,$parentid,$comment,$userid){
+		$query = sprintf("INSERT INTO comments (picid,parentid,comment,timesubmitted,userid)
+		VALUES(%d,%s,'%s',FROM_UNIXTIME(%d),%d)",
+		mysql_real_escape_string($picid),
+		mysql_real_escape_string($parentid),
+		mysql_real_escape_string($comment),
+		time(),
+		mysql_real_escape_string($userid));
+		
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;	
+		}
+	}
+	
+	//returns true if parent_id refers to a real commment on the specified pic
+	//false otherwise
+	public static function parentExists($parentid, $picid){
+		$query = sprintf("SELECT commentid FROM comments WHERE parentid=%d
+		AND picid=%d",
+		mysql_real_escape_string($parentid),
+		mysql_real_escape_string($picid));
+		$result = mysql_query($query);
+		if(mysql_num_rows($result) < 1){
+			return false;
+		} else {
+			return true;
+		}
+	}
+	//returns most recent comment made by a user. false if no comments
+	public static function getLatestComment($userid){
+		$query = sprintf("SELECT commentid FROM comments WHERE userid=%d ORDER BY
+		timesubmitted DESC LIMIT 1",
+		mysql_real_escape_string($userid));
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		$row = mysql_fetch_row($result);
+		if(isset($row[0])){
+			return $row[0];
+		} else {
+			return false;	
+		}			
+	}
 	//returns number of comments on given pic
 	public static function commentCount($picid){
 		$query = sprintf("SELECT COUNT(*) FROM comments WHERE picid=%d",
@@ -120,7 +167,7 @@ class Threaded_comments{
 		//get properties for comment
 		echo ("
 		<br />
-		<div class='commenttext' id='text_$comment[id]'>".Threaded_Comments::bbParse(htmlentities($comment['text'],ENT_QUOTES,'UTF-8'))."</div>
+		<div class='commenttext' id='text_$comment[id]'>".Comments::bbParse(htmlentities($comment['text'],ENT_QUOTES,'UTF-8'))."</div>
 		<br />
 	<span>
 	<a class=\"replylink commentlink\" id='replylink_$comment[id]' href=\"javascript:doNothing()\">reply</a> ");

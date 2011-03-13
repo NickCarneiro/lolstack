@@ -2,17 +2,33 @@
 include_once("OAuth.php");
 $api_key = 'd584c96e6c1ba3ca448426f66e552e8e'; // Your API key.
 $secret_key = 'e2dc0eb89b62426ca92a8f79e97fb532';
-$http_url = 'http://dev.lolstack.com/api/pic/';
+$http_url = 'https://dev.lolstack.com/api/comment/';
   $ch = curl_init();
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_POST, 1);
   curl_setopt($ch, CURLOPT_URL, $http_url);
+  
  //curl_setopt($ch, CURLOPT_HEADER, true); // Display headers
   //prepare the field values being posted to the service
+  
+  /* test array for listing query
   $data = array(
     'user_id' => '8',
 	'pic_id' => '9406',
 	'category' => 'funny',
+	'timeframe'=>'today',
+    'timestamp' => time(), 
+    'nonce' => str_rot13(time()),
+	'api_key'=>$api_key
+  );
+  */
+  $data = array(
+    'username' => 'Nick_C',
+	'password' => 'c4siokey',
+	'parent_id' => '2753',
+	'pic_id' =>'10825',
+	'comment' => 'dj wally',
 	'timeframe'=>'today',
     'timestamp' => time(), 
     'nonce' => str_rot13(time()),

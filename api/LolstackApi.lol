@@ -5,6 +5,8 @@ include_once("../User.lol");
 include_once("../Storage.lol");
 include_once("../PicClass.lol");
 include_once("../Categories.lol");
+include_once("../Comments.lol");
+include_once("../Notifications.lol");
 include_once("OAuth.php");
 
 Database::DatabaseConnect();
@@ -17,7 +19,9 @@ class LolstackApi {
 		try {
 			
 			$method = LolstackApi::get_string_between($requestData->getUrl(),"/api/","/");
+			
 			if(method_exists('LolstackApi',$method)){
+				
 				//verify signature
 				$data = $requestData->getRequestVars();
 				//error_log(json_encode($data));
@@ -72,6 +76,66 @@ class LolstackApi {
 		return new responseObject("200",json_encode($vitals));
 	}
 	*/
+	
+	/*
+	comment
+		params: username, password, comment, parent_id, pic_id
+		returns: 200 OK on success, error message on failure
+		http method:post
+		
+		parent_id must be 'null' if it is a top level comment
+	*/
+	static function comment($requestData){
+		$params = $requestData->getRequestVars();
+		$userid = User::checkCredentials($params['username'],$params['password']);
+		if( $userid == false){
+			throw new Exception("Incorrect username or password","403");
+		}
+		//submitting new comment
+		//validate comment, picid, and parentid
+		$comment = $params['comment'];
+		//error_log('comment '.$comment);
+		$picid = strip_tags($params['pic_id']);
+		$parentid = $params['parent_id'];
+		if(is_numeric($parentid)){
+			//check that parent id actually exists on the specified pic id
+			if(!Comments::parentExists($parentid,$picid)){
+				throw new Exception("parent_id does not exist for specified pic_id.","400");
+			}
+		} else {
+			if($parentid != "null"){
+				throw new Exception("Invalid parent_id. Must be 'null' or numeric.","400");
+			}
+		}
+		
+		$commentlength = strlen(trim($comment));
+		if ($commentlength == 0){
+			throw new Exception('Comment may not be empty','400');	
+		}
+		$picidlength = strlen(trim($picid));
+		if ($picidlength == 0){
+			throw new Exception('pic_id may not be empty','400');	
+		}
+		$parentidlength = strlen(trim($parentid));
+		
+		if ($parentidlength == 0){
+			throw new Exception('parentid may not be empty','400');	
+			}
+		if(!is_numeric($picid)){
+			throw new Exception('invalid pic_id','400');
+		}
+	
+		Comments::addComment($picid,$parentid,$comment,$userid);
+		//add notification for parent
+		Notifications::pushCommentNotifications();
+		//get new commentid for highlighting on page
+		Comments::getLatestComment($userid);	
+		return new responseObject("200",json_encode(
+			Array('message'=>'Comment submitted successfully.',
+			'pic_id'=>$picid,
+			'comment_id'=>$commentid)));
+	
+	}
 	
 	static function pic($requestData){
 		$params = $requestData->getRequestVars();

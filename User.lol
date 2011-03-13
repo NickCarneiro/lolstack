@@ -310,5 +310,25 @@ class User {
 			return false;
 		}
 	}
+	
+	//returns user id on success, false on failure
+	public static function checkCredentials($username, $password){
+		$query = sprintf("SELECT id FROM users WHERE username='%s' AND password='%s'",
+		mysql_real_escape_string($username),
+		mysql_real_escape_string(md5($password)));
+		$result = mysql_query($query);
+		if(!$result){ 
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		$num_rows = mysql_num_rows($result);
+		if ($num_rows < 1){
+			return false;
+		}
+		else {
+			$row = mysql_fetch_assoc($result);
+			return $row['id'];
+		}
+	}
 }
 ?>

@@ -123,7 +123,7 @@ function renderResults($results,$totalResults){
 		foreach($results as $pic){
 		$voted = $pic['type'] == null ? false : $pic['type'];
 		$effectivevotes = $pic['upvotes'] - $pic['downvotes'];
-		$numcomments = Threaded_comments::commentCount($pic['id']);
+		$numcomments = Comments::commentCount($pic['id']);
 		//great way to handle pluralization
 		$commentstring = ($numcomments == 1 ? $numcomments." comment" : $numcomments." comments");
 		if(is_numeric($voted)){
