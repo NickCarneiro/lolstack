@@ -85,7 +85,17 @@ class LolstackApi {
 		
 		parent_id must be 'null' if it is a top level comment
 	*/
-	static function comment($requestData){
+	
+	static function get_user_id($requestData){
+		$params = $requestData->getRequestVars();
+		$userid = User::checkCredentials($params['username'],$params['password']);
+		if( $userid == false){
+			throw new Exception("Incorrect username or password","403");
+		}
+		return new responseObject("200",json_encode(
+			Array('user_id'=>$userid)));
+	}
+	static function add_comment($requestData){
 		$params = $requestData->getRequestVars();
 		$userid = User::checkCredentials($params['username'],$params['password']);
 		if( $userid == false){
@@ -137,7 +147,7 @@ class LolstackApi {
 	
 	}
 	
-	static function pic($requestData){
+	static function get_pic($requestData){
 		$params = $requestData->getRequestVars();
 		if(!isset($params['pic_id'])){
 			throw new Exception("Missing parameter: pic_id","400");
@@ -152,7 +162,7 @@ class LolstackApi {
 		return new responseObject("200",json_encode($vitals));
 	}
 	
-	static function listing($requestData){
+	static function get_listing($requestData){
 		global $categories;
 		$params = $requestData->getRequestVars();
 		if(!isset($params['user_id'])){
@@ -178,10 +188,30 @@ class LolstackApi {
 	}
 	
 	//no params
-	static function categories($requestData){
-		global $categories;
+	static function get_categories($requestData){
+		global $categories; //defined in Categories.php
 		
 		return new responseObject("200",json_encode($categories));
+	}
+	
+	static function get_comments($requestData){
+		$params = $requestData->getRequestVars();
+		if(!isset($params['pic_id'])){
+			throw new Exception("Missing parameter: pic_id","400");
+		}
+		if(!isset($params['user_id'])){
+			throw new Exception("Missing parameter: user_id","400");
+		}
+		
+		if(!is_numeric($params['pic_id'])){
+			throw new Exception("Invalid parameter: pic_id","400");
+		}
+		
+		if(!is_numeric($params['user_id'])){
+			throw new Exception("Invalid parameter: user_id","400");
+		}
+		$comments = Comments::getPicComments($params['pic_id'],$params['user_id']);
+		return new responseObject("200",json_encode($comments));
 	}
 	
 	static function calcSignatureREST($secretKey, $httpUrl, $parameters,$httpMethod) {

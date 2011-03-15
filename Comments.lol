@@ -9,8 +9,10 @@ class Comments{
      */
     function __construct($picid)
     {
-	
-		$comments = $this->getComments($picid);
+		//we want to display gray up or down arrows if the user has already voted
+		//but can't do this is nobody is signed in
+		$userid = isset($_SESSION['userid']) ? $_SESSION['userid']:-1;
+		$comments = $this->getPicComments($picid,$userid);
 		$this->picid = $picid;
         foreach ($comments as $comment)
         {
@@ -85,6 +87,32 @@ class Comments{
 			$row = mysql_fetch_row($result);
 			return $row[0];
 		}
+	}
+	
+	public static function getPicComments($picid,$userid){
+		$query = sprintf("SELECT comments.*, users.username, users.id, commentvotes.type 
+		FROM comments LEFT JOIN (commentvotes) 
+		ON (comments.commentid=commentvotes.commentid AND commentvotes.userid=%d) INNER JOIN (users) 
+		ON (comments.userid = users.id ) WHERE comments.picid=%d  
+		ORDER BY comments.timesubmitted ASC",
+		mysql_real_escape_string($userid),
+		mysql_real_escape_string($picid));
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+		}
+		$commentarray = array();
+		$i = 0;
+		while ($row = mysql_fetch_assoc($result)){
+			$voted = ($row['type'] == null ? false : $row['type']);
+			
+			$commentarray[$i] = array('id'=>$row['commentid'], 'parent_id'=>$row['parentid'], 
+			'username'=>$row['username'],'text'=>$row['comment'], 'timesubmitted'=>$row['timesubmitted'],
+			'upvotes'=>$row['upvotes'],'downvotes'=>$row['downvotes'], 'pic_id'=>$picid, 'user_id'=>$row['id'],'edited'=>$row['edited'],'voted'=>$voted);
+			$i++;
+		}
+		//echo "is is:".$i;
+		return $commentarray;
 	}
 	
 	/**
