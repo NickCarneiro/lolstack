@@ -7,6 +7,7 @@ include_once("../PicClass.lol");
 include_once("../Categories.lol");
 include_once("../Comments.lol");
 include_once("../Notifications.lol");
+include_once("../Phash.lol");
 include_once("OAuth.php");
 
 Database::DatabaseConnect();
@@ -38,7 +39,10 @@ class LolstackApi {
 					throw new Exception("Unknown or banned api_key","401");				
 				}
 				
-				
+				//binary data excluded
+				if(isset($data['image'])){
+					unset ($data['image']);
+				}
 				$sig = LolstackApi::calcSignatureREST($secretKey, LolstackApi::full_url(), $data,$requestData->getMethod());
 				if ($sig != $data['oauth_signature']){
 					throw new Exception("Incorrect signature","401");
@@ -95,6 +99,73 @@ class LolstackApi {
 		return new responseObject("200",json_encode(
 			Array('user_id'=>$userid)));
 	}
+	/*
+	params:username, password, image, title, description, nsfw, category, tags
+	*/
+	static function add_pic($requestData){
+		global $categories;
+		$params = $requestData->getRequestVars();
+		$userid = User::checkCredentials($params['username'],$params['password']);
+		//verify everything!
+		if( $userid == false){
+			throw new Exception("Incorrect username or password","403");
+		}
+		if(!isset($params['title'])){
+			throw new Exception('Missing parameter: title','400');
+		}
+		/*if(!isset($params['image'])){
+			throw new Exception('Missing parameter: image','400');
+		}
+		*/
+		if(!isset($params['tags'])){
+			throw new Exception('Missing parameter: tags','400');
+		}
+		if(!isset($params['description'])){
+			throw new Exception('Missing parameter: description','400');
+		}
+		if(!isset($params['nsfw'])){
+			throw new Exception('Missing parameter: nsfw','400');
+		}
+		if(!is_numeric($params['nsfw'])){
+			throw new Exception('Invalid parameter: nsfw. Must be 0 or 1.','400');
+		}
+		
+		if (!in_array($params['category'], $categories)){
+			throw new Exception("Invalid category ","400");
+		}
+		if (strlen(trim($params['title']))== 0){
+			throw new Exception('title may not be empty ','400');	
+		}
+		
+		try{
+			$picresult = PicClass::addNewPic($params['title'], $params['description'], 
+			$params['category'], $params['nsfw'], $params['tags'], $userid);
+		} catch(Exception $e){
+			//if image already exists, the pic_id is passed
+			//as the Exception's code. This is a hack to avoid writing 
+			//a custom exception class which should be done eventually.
+			
+			if($e->getCode() > 0){
+				return new ResponseObject("500",json_encode(Array('message'=>$e->getMessage(),'pic_id'=>$e->getCode())));
+
+			} else {
+				return new ResponseObject("500",json_encode(Array('message'=>$e->getMessage())));
+				
+			}
+		}
+			
+
+		if($picresult > 0){
+			error_log("returning new response object");
+			return new ResponseObject("200",json_encode(
+			Array('message'=>'Image submitted successfully.','pic_id'=>$picresult)));
+		} else {
+			
+			throw new Exception($picresult,'500');
+		}
+		
+	}
+	
 	static function add_comment($requestData){
 		$params = $requestData->getRequestVars();
 		$userid = User::checkCredentials($params['username'],$params['password']);

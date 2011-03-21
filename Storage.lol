@@ -1,6 +1,33 @@
 <?php
-
+include_once("Imgur.lol");
 class Storage{
+
+	function png2jpg($originalFile, $outputFile, $quality) {
+		$image = imagecreatefrompng($originalFile);
+		imagejpeg($image, $outputFile, $quality);
+		imagedestroy($image);
+	}
+
+	/**
+	Check if image file meets minimum vertical 
+	and horizontal size requirements
+	$imageinfo: result of getimagesize()
+	$minhoriz: minimum horizontal resolution in pixels
+	$minvert: vertical
+	returns false if image too small
+	*/
+	public static function checkRes($imageinfo, $minhoriz,$minvert){
+		if($imageinfo[0] < $minhoriz){
+			return false;
+		}
+		else if($imageinfo[1] < $minvert){
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 /**
 returns true if hash doesn't exist and adjacent hashes are far enough away
 returns id of matching pic if a pic is too close of a match
@@ -22,7 +49,6 @@ returns id of matching pic if a pic is too close of a match
 			return $row[0];
 			
 		}
-		
 		
 		//$startTime = time();
 		$hashResult = Phash::checkPhash($phash);
@@ -222,5 +248,7 @@ function sanitize_url($string, $force_lowercase = true, $anal = true) {
             strtolower($clean) :
         $clean;
 }
+
+
 
 ?>

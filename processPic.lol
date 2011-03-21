@@ -109,8 +109,6 @@ else if (isset($_POST['category'])){
 		
 		//url upload
 		if(strlen(trim($_POST['url'])) > 0){
-			
-				
 				$url = $_POST['url'];
 				
 				$uuid = gen_uuid();
@@ -152,8 +150,7 @@ else if (isset($_POST['category'])){
 		}
 		//if image is a png, convert to jpg
 		if($filetype == "png"){
-			//png2jpg($originalFile, $outputFile, $quality)
-			png2jpg($targetfile, $targetfile.".jpeg", 80);
+			Storage::png2jpg($targetfile, $targetfile.".jpeg", 80);
 			//error_log("targetfile: $targetfile");
 			unlink($targetfile);
 			rename($targetfile.".jpeg",$targetfile);
@@ -171,7 +168,7 @@ else if (isset($_POST['category'])){
 		
 		//check pic resolution before storing permanently
 		$minres = 70;
-		if(!checkRes($imageinfo, $minres, $minres)){
+		if(!Storage::checkRes($imageinfo, $minres, $minres)){
 			throw new Exception("<error>Image too small. Minimum resolution: $minres pixels.</error>");
 		}
 		
@@ -255,29 +252,5 @@ else if (isset($_POST['category'])){
 	echo ("<br />");
 }
 
-function png2jpg($originalFile, $outputFile, $quality) {
-    $image = imagecreatefrompng($originalFile);
-    imagejpeg($image, $outputFile, $quality);
-    imagedestroy($image);
-}
 
-/**
-Check if image file meets minimum vertical 
-and horizontal size requirements
-$imageinfo: result of getimagesize()
-$minhoriz: minimum horizontal resolution in pixels
-$minvert: vertical
-returns false if image too small
-*/
-function checkRes($imageinfo, $minhoriz,$minvert){
-	if($imageinfo[0] < $minhoriz){
-		return false;
-	}
-	else if($imageinfo[1] < $minvert){
-		return false;
-	}
-	else {
-		return true;
-	}
-}
 ?>
