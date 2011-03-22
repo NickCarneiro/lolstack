@@ -2,7 +2,7 @@
 include_once("OAuth.php");
 $api_key = 'd584c96e6c1ba3ca448426f66e552e8e'; // Your API key.
 $secret_key = 'e2dc0eb89b62426ca92a8f79e97fb532';
-$http_url = 'https://dev.lolstack.com/api/add_pic/';
+$http_url = 'https://dev.lolstack.com/api/add_comment/';
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -22,19 +22,21 @@ $http_url = 'https://dev.lolstack.com/api/add_pic/';
     'nonce' => str_rot13(time()),
 	'api_key'=>$api_key
   );
+  */
   //test array for add_comment
   $data = array(
     'username' => 'Nick_C',
 	'password' => 'c4siokey',
-	'parent_id' => '2753',
-	'pic_id' =>'10825',
-	'comment' => 'dj wally',
+	'parent_id' => '282',
+	'pic_id' =>'11759',
+	'comment' => 'yoyo',
 	'timeframe'=>'today',
     'timestamp' => time(), 
     'nonce' => str_rot13(time()),
 	'api_key'=>$api_key
   );
   
+  /*
   //test array for get_comments
   $data = array(
     'user_id' => '9',
@@ -43,7 +45,7 @@ $http_url = 'https://dev.lolstack.com/api/add_pic/';
     'nonce' => str_rot13(time()),
 	'api_key'=>$api_key
   );
-  */
+  
   //test array for add_pic
   $data = array(
     'username' => 'Nick_C',
@@ -58,10 +60,11 @@ $http_url = 'https://dev.lolstack.com/api/add_pic/';
     'nonce' => str_rot13(time()),
 	'api_key'=>$api_key
   );
-  
+  */
   $sig = calcSignatureREST($secret_key, $http_url, $data,"post");
   //add image. Binary data not included in signature.
-  $data['image'] = '@freedia.jpg';
+  /*$data['image'] = '@freedia.jpg';
+  */
   $data['oauth_signature'] = $sig;
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $data);

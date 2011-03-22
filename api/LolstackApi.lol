@@ -32,7 +32,11 @@ class LolstackApi {
 				if(!isset($data['api_key'])){
 					throw new Exception("Missing parameter: api_key","400");
 				}
-					
+				
+				if(isset($data['password']) && $_SERVER['HTTPS'] != "on"){
+					throw new Exception("Credentials sent over http. Must use https","400");
+				}			
+							
 				$secretKey = LolstackApi::getSecretKey($data['api_key']);
 				if($secretKey == false){
 					
@@ -103,6 +107,7 @@ class LolstackApi {
 	params:username, password, image, title, description, nsfw, category, tags
 	*/
 	static function add_pic($requestData){
+	
 		global $categories;
 		$params = $requestData->getRequestVars();
 		$userid = User::checkCredentials($params['username'],$params['password']);
@@ -180,7 +185,8 @@ class LolstackApi {
 		$parentid = $params['parent_id'];
 		if(is_numeric($parentid)){
 			//check that parent id actually exists on the specified pic id
-			if(!Comments::parentExists($parentid,$picid)){
+			echo("$parentid ".$picid);
+			if(Comments::parentExists($parentid,$picid) == false){
 				throw new Exception("parent_id does not exist for specified pic_id.","400");
 			}
 		} else {

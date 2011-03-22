@@ -46,7 +46,7 @@ class Comments{
 	//returns true if parent_id refers to a real commment on the specified pic
 	//false otherwise
 	public static function parentExists($parentid, $picid){
-		$query = sprintf("SELECT commentid FROM comments WHERE parentid=%d
+		$query = sprintf("SELECT commentid FROM comments WHERE commentid=%d
 		AND picid=%d",
 		mysql_real_escape_string($parentid),
 		mysql_real_escape_string($picid));
