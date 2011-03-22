@@ -5,14 +5,10 @@ renderHeader("lolstack: terms of service");
 ?>
 
 <div class="grid_2 alpha">
-	<div class="grid_2 entry">
-	<ul class="navlist">
-	<li><a href="about.lol"><span>About</span></a></li>
-	<li><a href="faq.lol"><span>FAQ</a></span></li>
-	<li><a href="contact.lol"><span>Contact</a></span></li>
-	<li><a class="navlist_selected" href="terms.lol"><span>Terms</a></span></li>
-	</ul>
-	</div>
+	<?php
+		$bar = new Sidebar(Sidebar::currentFile());
+		$bar->printSidebar();
+	?>
 </div>	
 <div class="grid_8">
 	<div class="grid_8 entry">

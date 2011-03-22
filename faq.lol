@@ -5,15 +5,10 @@ renderHeader("lolstack: faq");
 ?>
 
 <div class="grid_2 alpha">
-	<div class="grid_2 entry">
-	<ul class="navlist">
-	<li><a href="about.lol"><span>About</span></a></li>
-	<li><a class="navlist_selected" href="faq.lol"><span>FAQ</a></span></li>
-	<li><a href="contact.lol"><span>Contact</a></span></li>
-	<li><a href="terms.lol"><span>Terms</a></span></li>
-
-	</ul>
-	</div>
+	<?php
+		$bar = new Sidebar(Sidebar::currentFile());
+		$bar->printSidebar();
+	?>
 </div>	
 <div class="grid_8">
 	<div class="grid_8 entry">
@@ -27,7 +22,7 @@ renderHeader("lolstack: faq");
 
 	<span class="welcomeheadline">What's up with that stick figure?</span>
 	<br />
-	<span class="errortext">Cereal guy is lolstack's official mascot. He will give you some context clues when you're using the site.</span><br /> <br />
+	<span class="errortext">Cereal guy always has something to say. He will give you some context clues when you're using the site.</span><br /> <br />
 	
 	
 	</div>
