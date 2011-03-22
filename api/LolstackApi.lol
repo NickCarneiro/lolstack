@@ -185,7 +185,7 @@ class LolstackApi {
 		$parentid = $params['parent_id'];
 		if(is_numeric($parentid)){
 			//check that parent id actually exists on the specified pic id
-			echo("$parentid ".$picid);
+			
 			if(Comments::parentExists($parentid,$picid) == false){
 				throw new Exception("parent_id does not exist for specified pic_id.","400");
 			}
