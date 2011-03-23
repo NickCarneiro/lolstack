@@ -83,7 +83,7 @@ try {
 		$query = sprintf("		
 		SELECT pics.id,pics.title,pics.description,pics.filetype,
 		pics.category,pics.upvotes,pics.downvotes,pics.user_id, 
-		pics.date_added, pics.nsfw,pics.phash,users.username,votes.type
+		pics.date_added, pics.nsfw, pics.thumb,pics.phash,users.username,votes.type
 		FROM pics LEFT JOIN (votes)
 		ON (pics.id=votes.picid AND votes.userid=%d)
 		INNER JOIN (users)
@@ -101,7 +101,7 @@ try {
 		$query = sprintf("		
 		SELECT pics.id,pics.title,pics.description,pics.filetype,
 		pics.category,pics.upvotes,pics.downvotes,pics.user_id, 
-		pics.date_added, pics.nsfw, pics.phash,users.username,votes.type
+		pics.date_added, pics.nsfw, pics.phash,pics.thumb,users.username,votes.type
 		FROM pics LEFT JOIN (votes)
 		ON (pics.id=votes.picid AND votes.userid=%d)
 		INNER JOIN (users)
@@ -138,7 +138,7 @@ try {
 		
 		echo (renderPic($row['id'], $row['title'], $row['description'],
 		$row['category'],$row['upvotes'],$row['downvotes'],$row['username'],
-		$row['date_added'],$row['category'],$row['user_id'],$row['nsfw'],$alpha,$voted,$row['phash']));
+		$row['date_added'],$row['category'],$row['user_id'],$row['nsfw'],$alpha,$voted,$row['phash'],$row['thumb']));
 		$i++;
 	}
 } catch (Exception $e){
@@ -182,7 +182,7 @@ function renderPagination($lastpage){
 }
 function renderPic($id,$title,$description,$category,
 $upvotes,$downvotes,$username,$timesubmitted,$category,
-$user_id,$nsfw,$alpha,$voted,$phash){
+$user_id,$nsfw,$alpha,$voted,$phash,$thumb){
 	$effectivevotes = $upvotes - $downvotes;
 	$numcomments = Comments::commentCount($id);
 	//great way to handle pluralization
@@ -217,7 +217,7 @@ $user_id,$nsfw,$alpha,$voted,$phash){
 		</span>
 	</div>";
 	$directory = substr($timesubmitted,0,10); //get date from mysql datetime
-	if(file_exists("/srv/uploads/$directory/".$phash."_112x70.jpeg") && $nsfw != 1){
+	if(file_exists("/srv/uploads/$directory/".$phash."_112x70.jpeg") && $nsfw != 1 && $thumb == 1){
 		$imgsrc = "http://uploads.lolstack.com/$directory/".$phash."_112x70.jpeg";
 	} else {
 		$imgsrc = "images/nothumb.jpg";

@@ -111,7 +111,15 @@ echo('<script type="text/javascript" src="js/picform.js"></script>');
 				<input class="cbxInput" type="checkbox" name="nsfw" id="nsfw" value="1" />    
             </div>
     </div>
-	
+	<div class="inputRow containerFix">
+            <div class="inputName">
+                <label for="nothumb">
+                    No thumbnail</label>
+			</div>
+            <div class="inputValue">
+				<input class="cbxInput" type="checkbox" name="nothumb" id="nothumb" value="1" />    
+            </div>
+    </div>
 	<div class="inputRow containerFix">
             <div class="inputName">
                 <label for="submitbutton">

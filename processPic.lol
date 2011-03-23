@@ -105,7 +105,10 @@ else if (isset($_POST['category'])){
 		if (isset($_POST['nsfw'])){
 			$nsfw = 1;
 		}
-		
+		$thumb = 1;
+		if (isset($_POST['nothumb'])){
+			$thumb = 0;
+		}
 		
 		//url upload
 		if(strlen(trim($_POST['url'])) > 0){
@@ -184,8 +187,8 @@ else if (isset($_POST['category'])){
 		$description = Comments::bbParse($description_orig);
 		
 		//insert entry in database
-		$query = sprintf("INSERT INTO pics (title,description,description_orig,md5,phash,user_id,filetype,date_added,category,nsfw) 
-		VALUES('%s','%s','%s','%s',%s,%d,'%s',FROM_UNIXTIME(%d),'%s',%d)",
+		$query = sprintf("INSERT INTO pics (title,description,description_orig,md5,phash,user_id,filetype,date_added,category,nsfw,thumb) 
+		VALUES('%s','%s','%s','%s',%s,%d,'%s',FROM_UNIXTIME(%d),'%s',%d,%d)",
 		mysql_real_escape_string($title),
 		mysql_real_escape_string($description),
 		mysql_real_escape_string($description_orig),
@@ -195,7 +198,8 @@ else if (isset($_POST['category'])){
 		$filetype,
 		time(),
 		$category,
-		$nsfw);
+		$nsfw,
+		$thumb);
 		
 		$result = mysql_query($query);
 		if (!$result){
