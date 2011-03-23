@@ -131,6 +131,7 @@ function showDescResponse(responseText, statusText, xhr, $form)  {
 	}
 }
 $(document).ready(function(){
+
 			var highlight = '';
 			if(window.location.hash) {
 			  // hash exists

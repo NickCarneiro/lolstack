@@ -67,7 +67,7 @@ if (isset($_GET['id'])){
 			
 			echo("<br /><br />");
 			
-			echo('<div id="newcomment" class="hidden top_comment_container">
+			echo('<div id="newcomment" class="top_comment_container grid_8">
 					<span class="details picdetails">Enter your comment:</span>
 					<form class="submitcomment" id="toplevelcomment" action="javascript:doNothing()">
 						<input type="hidden" name="picid" value="'.$id.'" />
@@ -121,13 +121,16 @@ benbenben
 					</form>
 					<div id="formatting_none" class="formatting_none hidden"></div>
 </div>
+<div class="grid_16">
 
 				');
 			//render comments
 	
 			$threaded_comments = new Comments($id);
 			$threaded_comments->print_comments();
-			echo('<div class="grid_16 overlapbug omega">
+			echo('
+</div> <!--close comments-->			
+			<div class="grid_16 overlapbug omega">
 				
 			
 			</div>');

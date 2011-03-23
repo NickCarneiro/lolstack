@@ -3,7 +3,10 @@ var orig_height = -1;
 var width = -1;
 var height = -1;
 var first_load = 0;
+
 $(document).ready(function(){
+	$("#newcomment").hide();
+	
 	//resize pic to fit screen
 	$("#theActualPic").load(function(){
 		
@@ -15,6 +18,7 @@ $(document).ready(function(){
 			first_load = 1;
 			$( "#theActualPic" ).aeImageResize({ height: 800, width: 940 });
 		}
+		
 	});
 	//or however you get a handle to the IMG
 	
@@ -59,14 +63,11 @@ $(document).ready(function(){
 			$('#logindialog').dialog('open');
 			return;
 		}
-		if($('#newcomment').css('display').indexOf('block') != -1){
-			$('#newcomment').css('display','none');
-		} else {
-			$('#newcomment').css('display','block');
-		}
+		$("#newcomment").toggle();
 		
 		//showHideDiv('newcomment');	
 	});
+
 	 
 		$(".link_top").live('click', function () {
 			
@@ -77,3 +78,4 @@ $(document).ready(function(){
 		
 		$(".reply_comment_container").css('display','none');
 	});
+	
