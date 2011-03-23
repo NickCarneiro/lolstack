@@ -94,7 +94,7 @@ echo("
 ");
 
 echo('<div id="wrapper">
-<div class="container_16">
+<div id="content" class="container_16">
 	
 <div class="entry_top grid_16">
 <div class="logocontainer grid_6 alpha">

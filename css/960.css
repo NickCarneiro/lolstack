@@ -6,12 +6,17 @@ by Steve Hatcher
 http://stever.ca http://www.cssstickyfooter.com
 */
 
-html, body, #wrapper {height: 100%;}
-
+html, body, #wrapper {height: 100%; }
 body > #wrapper { height: auto; min-height: 100%; }
 
-/* must be same height as the footer */
-#content { overflow: auto; padding-bottom: 150px; } 
+
+
+
+#content {
+
+padding-bottom: 50px; 
+
+} 
 
 #footer {
 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;

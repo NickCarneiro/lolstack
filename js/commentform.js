@@ -138,7 +138,7 @@ $(document).ready(function(){
 			  //scroll to highlighted div
 			  if(window.location.hash.indexOf('container') > -1){
 				//alert('scrolling');
-				document.getElementById('container_'+highlight).scrollIntoView(true);
+				//document.getElementById('container_'+highlight).scrollIntoView(true);
 			  
 			  }
 			} 
