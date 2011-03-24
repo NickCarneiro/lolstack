@@ -34,7 +34,7 @@ $vitals = User::getVitals($_SESSION['userid']);
 </form>
 </div>
 
-<div class="entry grid_6 omega">
+<div class="entry grid_6">
 <span class="pic_instructions">Change Email</span>
 	<form action="javascript:doNothing()" class="changeemail">
 	<label class="passwordlabel" for="email">Email address:</label><input class="profile_password" type="text" name="email" value="<?php echo(htmlentities($vitals['email']))?>" /> <br/>
@@ -45,6 +45,10 @@ $vitals = User::getVitals($_SESSION['userid']);
 	</form>
 </div>
 
+<div class="entry grid_4 relative omega">
+<span class="pic_instructions">Your lolbucks</span><br />
+	<span class="lolbucks">$<?php echo(Lolbucks::getLolbucks($_SESSION['userid']));?></span>
+</div>
 
 <?php
 include_once("htmlfooter.lol");
