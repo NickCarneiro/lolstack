@@ -105,12 +105,13 @@ class Bots {
 	}
 	
 }
-
+mysql_query("update users set last_login = DATE_ADD(CURRENT_DATE, INTERVAL 12*rand() HOUR) WHERE privilege=2");
 $urls = Array(
 'political'=>Array('http://www.reddit.com/r/politics/'),
 'wtf'=>Array('http://www.reddit.com/r/WTF/'),
 'trees'=>Array('http://www.reddit.com/r/trees/','http://www.reddit.com/r/marijuana'),
-'funny'=>Array('http://www.reddit.com/','http://www.reddit.com/r/pics/','http://www.reddit.com/r/funny/'));
+'funny'=>Array('http://www.reddit.com/','http://www.reddit.com/r/pics/','http://www.reddit.com/r/funny/'),
+'rage'=>Array('http://www.reddit.com/r/fffffffuuuuuuuuuuuu/'));
 libxml_use_internal_errors(true);
 foreach($urls as $category=>$url){
 	foreach($url as $link){
