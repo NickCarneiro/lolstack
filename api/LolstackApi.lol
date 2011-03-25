@@ -49,6 +49,7 @@ class LolstackApi {
 				}
 				echo("URL: ".LolstackApi::full_url());
 				$sig = LolstackApi::calcSignatureREST($secretKey, LolstackApi::full_url(), $data,$requestData->getMethod());
+				echo("SIG: ".$sig);
 				if ($sig != $data['oauth_signature']){
 					throw new Exception("Incorrect signature","401");
 				}
