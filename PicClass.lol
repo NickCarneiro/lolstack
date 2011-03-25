@@ -240,8 +240,8 @@ class PicClass{
 			
 			//insert entry in database
 			$query = sprintf("INSERT INTO pics 
-			(title,description,description_orig,md5,phash,user_id,filetype,date_added,category,nsfw) 
-			VALUES('%s','%s','%s','%s',%s,%d,'%s',FROM_UNIXTIME(%d),'%s',%d)",
+			(title,description,description_orig,md5,phash,user_id,filetype,date_added,category,nsfw,thumb) 
+			VALUES('%s','%s','%s','%s',%s,%d,'%s',FROM_UNIXTIME(%d),'%s',%d,1)",
 			mysql_real_escape_string($title),
 			mysql_real_escape_string($description),
 			mysql_real_escape_string($description_orig),

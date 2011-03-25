@@ -2,7 +2,7 @@
 include_once("OAuth.php");
 $api_key = 'd584c96e6c1ba3ca448426f66e552e8e'; // Your API key.
 $secret_key = 'e2dc0eb89b62426ca92a8f79e97fb532';
-$http_url = 'https://dev.lolstack.com/api/add_comment/';
+$http_url = 'https://lolstack.com/api/get_categories/';
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
