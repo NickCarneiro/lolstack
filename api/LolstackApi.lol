@@ -52,9 +52,9 @@ class LolstackApi {
 				echo('\n');
 				echo("SIG: ".$sig);
 				echo('\n');
-				echo("GIVEN SIG: $data[oauth_signature]");
+				echo("GIVEN SIG: ".urldecode($data[oauth_signature]));
 				echo('\n');
-				if ($sig != $data['oauth_signature']){
+				if ($sig != urldecode($data['oauth_signature'])){
 					throw new Exception("Incorrect signature","401");
 				}
 				
