@@ -47,9 +47,9 @@ class LolstackApi {
 				if(isset($data['image'])){
 					unset ($data['image']);
 				}
-				
+				echo("URL: ".LolstackApi::full_url());
 				$sig = LolstackApi::calcSignatureREST($secretKey, LolstackApi::full_url(), $data,$requestData->getMethod());
-				
+				echo("SIG: ".$sig);
 				if ($sig != $data['oauth_signature']){
 					throw new Exception("Incorrect signature","401");
 				}
@@ -303,8 +303,8 @@ class LolstackApi {
 		*/
 		$req = OAuthRequest::from_request($httpMethod,$httpUrl, $parameters);
 		$baseString = $req->get_signature_base_string(); 
-		
-		return  base64_encode(hash_hmac('sha1', $baseString, $secretKey, true));
+		echo("##SBS##: ".$baseString);
+		return  base64_encode(hash_hmac('sha1', $baseString, $secretKey), true));
 	}
 	static function get_string_between($string, $start, $end){
 		$string = " ".$string;
