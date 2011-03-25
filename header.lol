@@ -53,7 +53,7 @@ function renderHeader($title){
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery.form.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-<script type="text/javascript" src="js/voting.js"></script>
+<script type="text/javascript" src="js/voting.js?q=1"></script>
 <script type="text/javascript" src="js/dhtml.js"></script>
 <script type="text/javascript" src="js/dropdown.js"></script>
 <script type="text/javascript" src="js/jquery.inputTip.js"></script>

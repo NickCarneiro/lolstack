@@ -1,7 +1,48 @@
 
 var votePackContents = '';
 $(document).ready(function(){
-	$("a.upvote").click(function(){
+
+	$("a.upvote_gray, a.downvote_gray").live("click", function(event){
+		if(loggedIn == 0){
+			$( "#logindialog" ).dialog({ title: 'Login or register to vote' });
+			$('#logindialog').dialog('open');
+			return;
+		}
+		
+		//get the id
+	the_id = $(this).parent().attr('id').substring(12);
+	//alert('id '+the_id);
+	//save pack contents
+	votePackContents = $("#votes_count"+the_id).parent().html();
+	//alert(votePackContents);
+	// show the spinner
+	$("#votes_count"+the_id).html('<img src="images/spinner.gif"/>');
+	//the main ajax request
+		$.ajax({
+			type: "POST",
+			data: "action=clearvote&id="+the_id,
+			url: "vote.lol",
+			success: function(msg)
+			{
+				//bring back the pack contents
+				//alert(msg);
+				$("span#votes_count"+the_id).parent().html(votePackContents);
+				$("#upvote_button"+the_id).addClass('upvote');
+				$("#upvote_button"+the_id).removeClass('upvote_gray');
+				$("#upvote_button"+the_id).removeClass('downvote_gray');
+				$("#downvote_button"+the_id).addClass('downvote');
+				$("#downvote_button"+the_id).removeClass('upvote_gray');
+				$("#downvote_button"+the_id).removeClass('downvote_gray');
+				$("span#votes_count"+the_id).html(msg);
+				
+			}
+		});	
+	});
+	
+	
+	
+	$("a.upvote").live("click",function(event){
+		
 		if(loggedIn == 0){
 			$( "#logindialog" ).dialog({ title: 'Login or register to vote' });
 			$('#logindialog').dialog('open');
@@ -36,7 +77,7 @@ $(document).ready(function(){
 		});
 	});
 	
-	$("a.downvote").click(function(){
+	$("a.downvote").live("click",function(event){
 	if(loggedIn == 0){
 			$( "#logindialog" ).dialog({ title: 'Login or register to vote' });
 			$('#logindialog').dialog('open');
@@ -62,9 +103,9 @@ $(document).ready(function(){
 				//alert(msg);
 				$("span#votes_count"+the_id).parent().html(votePackContents);
 				$("#upvote_button"+the_id).removeClass('upvote');
-				$("#upvote_button"+the_id).toggleClass('downvote_gray');
+				$("#upvote_button"+the_id).addClass('downvote_gray');
 				$("#downvote_button"+the_id).removeClass('downvote');
-				$("#downvote_button"+the_id).toggleClass('downvote_gray');
+				$("#downvote_button"+the_id).addClass('downvote_gray');
 				$("span#votes_count"+the_id).html(msg);
 				
 			}
