@@ -302,7 +302,8 @@ class LolstackApi {
 		error_log("params ".json_encode($parameters)."\n");
 		*/
 		$req = OAuthRequest::from_request($httpMethod,$httpUrl, $parameters);
-		$baseString = $req->get_signature_base_string();    
+		$baseString = $req->get_signature_base_string(); 
+		echo("##SBS##: ".$baseString);
 		return  base64_encode(hash_hmac('sha1', $baseString, base64_decode($secretKey), true));
 	}
 	static function get_string_between($string, $start, $end){
