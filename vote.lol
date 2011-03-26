@@ -5,7 +5,7 @@ include_once("header.lol");
 if (isset($_POST['id'])){
 	$id = $_POST['id'];
 	$action = $_POST['action'];
-	error_log("action: $action");
+	//error_log("action: $action");
 	try{
 		if (!isLoggedIn()){
 			throw new Exception("<a href=\"login.lol\">Login</a>");

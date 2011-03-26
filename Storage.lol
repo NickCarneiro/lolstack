@@ -131,12 +131,12 @@ returns id of matching pic if a pic is too close of a match
 		if ($old_x < $old_y) {
 			$thumb_w=$new_w;
 			$thumb_h=$old_y*($new_w/$old_x);
-			error_log("long image");
+			//error_log("long image");
 		}
 		else {
 			$thumb_h=$new_h;
 			$thumb_w=$old_x*($new_h/$old_y);
-			error_log("wide image");
+			//error_log("wide image");
 		}
 		
 		while($thumb_w < $new_w || $thumb_h < $new_h){
