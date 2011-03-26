@@ -18,7 +18,7 @@ renderHeader("lolstack: about");
 		Users introduce funny, amusing, or otherwise interesting images to the community by uploading them. lolstack <strong>automatically rejects</strong> images that have been submitted before. This ensures that users don't get bored with images that were funny last week.
 		<br /><br />
 		2) <strong>Voting</strong><br />
-		Those orange squares on the home page are vote buttons. Good content rises to the top.
+		Those light blue arrows on the home page are vote buttons. Good content rises to the top.
 		<br /> <br />
 		3) <strong>Discussion</strong> <br />
 		Each image or "pic" has its own dedicated page where users can talk about it.
