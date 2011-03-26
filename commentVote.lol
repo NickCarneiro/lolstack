@@ -69,7 +69,7 @@ if (isset($_POST['commentid'])){
 				throw new Exception("Error: could not commit downvote");
 			}
 		} else if($action == "clearvote"){
-			error_log("clearing vote");
+			//error_log("clearing vote");
 			$query = sprintf("SELECT type FROM commentvotes WHERE commentid=%d AND userid=%d",
 			mysql_real_escape_string($commentid),
 			mysql_real_escape_string($userid));
