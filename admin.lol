@@ -6,7 +6,7 @@ if(!Auth::isAdmin()){
 }
 
 renderHeader("Admin panel");
-echo ("<div class=\"entries\">");
+
 
 $query = "SELECT COUNT(*) FROM pics";		
 $result = mysql_query($query);
@@ -33,16 +33,29 @@ $row = mysql_fetch_row($result);
 $commentcount = $row[0];
 
 echo ('
-<h1>Admin Panel</h1>
+<div class="grid_16">
+<div class="grid_4 entry alpha">
+<span class="pic_instructions">Delete an image</span><br />
 <form action="processAdmin.lol" method="post">
-Delete pic: <input name="delete" type="text" /><br />
+pic id: <input name="delete" type="text" /><br />
 <input type="submit" name="submit" value="submit" />
 </form>
-<br />
-<h1>Stats</h1>
+</div>
+<div class="entry grid_4">
+<span class="pic_instructions">Stats</span><br />
 Total users: '.$usercount.'<br />
 Total pics: '.$piccount.'<br />
 Total comments: '.$commentcount);
-echo ("</div>");
+echo("</div>");
+?>
+<div class="entry omega grid_4">
+<span class="pic_instructions">Ban a user</span><br />
+<form action="processAdmin.lol" method="post">
+user id: <input name="ban_user_id" type="text" /><br />
+<input type="submit" name="submit" value="submit" />
+</form>
+</div>
+<?php
+echo("</div>");
 include_once("htmlfooter.lol");
 ?>

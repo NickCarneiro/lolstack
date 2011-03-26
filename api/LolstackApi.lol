@@ -121,6 +121,9 @@ class LolstackApi {
 		if( $userid == false){
 			throw new Exception("Incorrect username or password","403");
 		}
+		if(User::isBanned($userid)){
+			throw new Exception('User has been banned.','403');
+		}
 		if(!isset($params['title'])){
 			throw new Exception('Missing parameter: title','400');
 		}
@@ -182,6 +185,9 @@ class LolstackApi {
 		$userid = User::checkCredentials($params['username'],$params['password']);
 		if( $userid == false){
 			throw new Exception("Incorrect username or password","403");
+		}
+		if(User::isBanned($userid)){
+			throw new Exception('User has been banned.','403');
 		}
 		//submitting new comment
 		//validate comment, picid, and parentid

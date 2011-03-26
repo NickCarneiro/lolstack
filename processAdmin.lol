@@ -64,6 +64,18 @@ if (isset($_POST['delete'])){
 	}
 	echo("deleted entry in mirrors table <br>
 	");
+} else if(isset($_POST['ban_user_id'])){
+	$query = sprintf("INSERT INTO bans (user_id, time_banned, expiration) VALUES(%d,FROM_UNIXTIME(%d),FROM_UNIXTIME(%d))",
+	$_POST['ban_user_id'],
+	time(),
+	strtotime("+10 years"));
+	$result = mysql_query($query);
+	
+	if (!$result){
+		echo("SQL error: ".mysql_error()."\nOriginal query: $query\n <br>");	
+	}
+	echo("user banned");
+	
 }
 echo ("<br>
 	<a href=\"javascript:history.back()\">back</a></div>");

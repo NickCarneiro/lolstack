@@ -57,6 +57,31 @@ class User {
 		return $print;
 	}
 
+	public static function isBanned($user_id){
+		$query = sprintf("SELECT UNIX_TIMESTAMP(MAX(expiration)) FROM bans
+		WHERE user_id=%d",
+		mysql_real_escape_string($user_id));
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		if(mysql_num_rows($result) < 1){
+			//no bans found
+			return true;
+		}
+		$row = mysql_fetch_row($result);
+		$time = time();
+		if($row[0] > $time){
+			error_log("ban expires ".$row[0]." current time: ".$time);
+			
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 	public function notificationCount($userid){
 		$query = sprintf("SELECT messagecount, commentreplycount, picreplycount FROM notifications
 		WHERE userid=%d",

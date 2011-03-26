@@ -37,7 +37,14 @@ if (isset($_POST['submit'])){
 		//all basic string validations passed, query db
 		//sets admin privs if privilege=1
 		$userid = validUser($username,$password);
+		
+		
 		if ($userid){
+			//check that user isn't banned
+			if(User::isBanned($userid)){
+				throw new Exception('User had been banned.');
+
+			}
 			//login successful
 			User::loginUser($userid);
 			header("Location: ".$curpage);
