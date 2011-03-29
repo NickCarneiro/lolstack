@@ -78,7 +78,7 @@ class User {
 			  </head>
 			  <body>
 					<p>Click the link below to reset your password </p>
-					<a href="https://lolstack.com/reset.lol?key='.$key.'&username='.$username.'">https://lolstack.com/reset.lol?key='.$key.'&username='.$key.'</a><br>
+					<a href="http://lolstack.com/reset.lol?key='.$key.'&username='.$username.'">https://lolstack.com/reset.lol?key='.$key.'&username='.$key.'</a><br>
 					<br>
 					If you do not want to reset your lolstack password, ignore this email.
 					<br>
