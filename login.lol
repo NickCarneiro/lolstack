@@ -68,6 +68,7 @@ if (isset($_POST['submit'])){
 Username: <input class="registertext" name="username" type="text" /> <br />
 Password: <input class="registertext" name="password" type="password" /> <br />
 <input class="registerbutton" name="submit" type="submit" value="Login" /><br />
+<span class="details"><a href="password.lol">Forget your password?</a></span>
 </form>
 <br />
 
