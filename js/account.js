@@ -47,6 +47,24 @@ function showEmailResponse(responseText, stsatusText, xhr, $form)  {
 	
 }
 
+function showPasswordResetRequest(formData, jqForm, options) {
+
+    //no local validation on email address
+    return true; 
+} 
+ 	
+ 
+function showPasswordResetResponse(responseText, stsatusText, xhr, $form)  { 
+    
+	if(responseText.indexOf('<error>') > -1){
+	//alert('error detected');
+		$("#accounterrors").html(responseText.between("<error>","</error>"));
+	} else { 
+		$('#accounterrors').html('Check your email for a link to reset your password.');
+	}
+	
+}
+
 
 $(document).ready(function(){
   $('.changepassword').submit(function() { 
@@ -81,4 +99,19 @@ $(document).ready(function(){
         return false; 
     });
 	
+	$('.resetpassword').submit(function() { 
+		
+		var optionsSubmit = { 
+        //target:        '#commenterrors',   // target element(s) to be updated with server response 
+        beforeSubmit:  showPasswordResetRequest,  // pre-submit callback 
+        success:       showPasswordResetResponse,  // post-submit callback 
+ 
+        // other available options: 
+        url:       'processaccount.lol',        // override for form's 'action' attribute 
+        type:      'post'        // 'get' or 'post', override for form's 'method' attribute 
+        
+    }; 
+        $(this).ajaxSubmit(optionsSubmit);  
+        return false; 
+    });
 });

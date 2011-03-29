@@ -22,7 +22,7 @@ if (isset($_POST['email'])){
 		echo("<error>".$e->getMessage()."</error>");
 	}
 }
-if (isset($_POST['current_password'])){
+else if (isset($_POST['current_password'])){
 	//retrieve comment for editing
 	try{
 		
@@ -57,6 +57,31 @@ if (isset($_POST['current_password'])){
 	}
 	catch(Exception $e){
 		error_log($e->getMessage());
+		echo("<error>".$e->getMessage()."</error>");
+	}
+} else if(isset($_POST['reset_email'])){
+	//reset password form submitted from password.lol
+	try{
+		if(!isset($_POST['username']) || strlen(trim($_POST['username'])) == 0){
+			throw new Exception('Username cannot be left blank');
+		}
+		if(strlen(trim($_POST['reset_email'])) == 0){
+			throw new Exception('Email cannot be left blank.');
+		}
+		if(strlen($_POST['username']) > 20){
+			throw new Exception('Invalid username');
+		}
+		if(strlen($_POST['reset_email']) > 255){
+			throw new Exception('Invalid username');
+		}
+		$user_id = User::verifyEmailUsername($_POST['reset_email'],$_POST['username']);
+		if($user_id == false){
+			throw new Exception('Unknown username/email combination.');
+		}
+		User::sendResetEmail($user_id);
+		
+	}catch(Exception $e){
+		
 		echo("<error>".$e->getMessage()."</error>");
 	}
 }

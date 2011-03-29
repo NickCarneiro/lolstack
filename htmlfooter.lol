@@ -23,8 +23,9 @@ Trillworks LLC</a>
 	<input type='hidden' name='currentpage' value='<?php echo Auth::curPageURL();?>' />
 
 		<input name="submit" class="registerbutton" type="submit" value="Log in" /> <br /> 
-
+		<span class="details"><a href="password.lol">Forget your password?</a></span>
 	</form><br />
+	
 	<span>Don't have an account yet? </span><br />
 	
 	<form action="register.lol" method="POST">

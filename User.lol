@@ -6,6 +6,197 @@ class User {
 		include_once("Database.lol");
 		Database::DatabaseConnect();
 	}
+	/**
+		return user_id if combination exists, false otherwise
+	*/
+	public static function verifyEmailUsername($email, $username){
+		$query = sprintf("SELECT id FROM users
+		WHERE email='%s' AND username='%s'",
+		mysql_real_escape_string($email),
+		mysql_real_escape_string($username));
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		if(mysql_num_rows($result) < 1){
+			return false;
+		} else {
+			$row = mysql_fetch_row($result);
+			return $row[0];
+		}
+	}
+	
+	/**
+	returns false if something goes wrong during reset process
+	*/
+	public static function sendResetEmail($user_id){
+		//delete existing resets
+		$query = sprintf("DELETE FROM resets WHERE user_id=%d",
+		mysql_real_escape_string($user_id));
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		
+		$key = md5(time() - rand(0,100000));
+		$query = sprintf("INSERT INTO resets (reset_key, user_id, reset_time) VALUES('%s',%d,FROM_UNIXTIME(%d))",
+		mysql_real_escape_string($key),
+		mysql_real_escape_string($user_id),
+		time());
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		
+		$query = sprintf("SELECT email,username FROM users where id=%d",
+		mysql_real_escape_string($user_id));
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		$row = mysql_fetch_row($result);
+		$email = $row[0];
+		$username = $row[1];
+		//##
+		
+		include_once('include/phpmailer5.1/class.phpmailer.php');
+
+		try {
+			$mail = new PHPMailer(true); //New instance, with exceptions enabled
+
+			$body	= '
+		
+			<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+			<html>
+			  <head>
+				<title>Email test</title>
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			  </head>
+			  <body>
+					<p>Click the link below to reset your password </p>
+					<a href="https://lolstack.com/reset.lol?key='.$key.'&username='.$username.'">https://lolstack.com/reset.lol?key='.$key.'&username='.$key.'</a><br>
+					<br>
+					If you do not want to reset your lolstack password, ignore this email.
+					<br>
+					<br>
+					----<br>
+					The message was sent to '.$email.'. If you don\'t want to receive these emails from lolstack in the future, please remove the email address from your account on the Account Settings page.<br>
+					<font color="#888888">Trillworks LLC 715 W. 22 1/2 St. #303 Austin, Texas 78705</font>
+			  </body>
+			</html>
+
+			';
+			$body             = preg_replace('/\\\\/','', $body); //Strip backslashes
+
+			$mail->IsSMTP();                           // tell the class to use SMTP
+			$mail->SMTPAuth   = true;                  // enable SMTP authentication
+			$mail->Port       = 465;                    // set the SMTP server port
+			$mail->Host       = "smtp.lolstack.com"; // SMTP server
+			$mail->Username   = "noreply@lolstack.com";     // SMTP server username
+			$mail->Password   = "c4siokey";            // SMTP server password
+
+			$mail->IsSendmail();  // tell the class to use Sendmail
+
+			$mail->AddReplyTo("noreply@lolstack.com","Cereal Guy");
+
+			$mail->From       = "noreply@lolstack.com";
+			$mail->FromName   = "lolstack";
+
+			$to = $email;
+
+			$mail->AddAddress($to);
+
+			$mail->Subject  = "Reset your lolstack password";
+
+			$mail->AltBody    = "Visit this url to reset your lolstack password: http://lolstack.com/reset.lol?key=$key&username=$username";
+			$mail->WordWrap   = 80; // set word wrap
+
+			$mail->MsgHTML($body);
+
+			$mail->IsHTML(true); // send as HTML
+
+			$mail->Send();
+			echo 'Message has been sent.';
+			return true;
+		} catch (phpmailerException $e) {
+			return false;
+		}
+
+	}
+	private static function generatePassword ($length = 8){
+
+		// start with a blank password
+		$password = "";
+
+		// define possible characters - any character in this string can be
+		// picked for use in the password, so if you want to put vowels back in
+		// or add special characters such as exclamation marks, this is where
+		// you should do it
+		$possible = "2346789BCDFGHJKLMNPQRTVWXYZ";
+
+		// we refer to the length of $possible a few times, so let's grab it now
+		$maxlength = strlen($possible);
+
+		// check for length overflow and truncate if necessary
+		if ($length > $maxlength) {
+		  $length = $maxlength;
+		}
+
+		// set up a counter for how many characters are in the password so far
+		$i = 0; 
+
+		// add random characters to $password until $length is reached
+		while ($i < $length) { 
+
+		  // pick a random character from the possible ones
+		  $char = substr($possible, mt_rand(0, $maxlength-1), 1);
+			
+		  // have we already used this character in $password?
+		  if (!strstr($password, $char)) { 
+			// no, so it's OK to add it onto the end of whatever we've already got...
+			$password .= $char;
+			// ... and increase the counter by one
+			$i++;
+		  }
+
+		}
+
+		// done!
+		return $password;
+	}	
+	//returns new password on success, false on failure
+	public static function resetPassword($username, $key){
+		$query = sprintf("SELECT resets.reset_key, users.username
+		FROM resets,users WHERE reset_key='%s' 
+		AND users.username='%s'
+		AND resets.user_id = users.id",
+		mysql_real_escape_string($key),
+		mysql_real_escape_string($username));
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		if(mysql_num_rows($result) < 1){
+			return false;
+		}
+		$newpassword = User::generatePassword();
+		$query = sprintf("UPDATE users SET password='%s'
+		WHERE username='%s'",
+		mysql_real_escape_string(md5($newpassword)),
+		mysql_real_escape_string($username));
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		return $newpassword;
+		
+	}
 	/* Works out the time since the entry post, takes a an argument in unix time (seconds) */
 	public static function time_since($original) {
 		// array of time period chunks
