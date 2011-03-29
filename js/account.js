@@ -3,10 +3,12 @@ function showPasswordRequest(formData, jqForm, options) {
 	
     var queryString = $.param(formData); 
 	var form = jqForm[0]; 
+	
+	
     if (!form.current_password.value || form.current_password.value.trim() == "") { 
 		//alert('empty');
 		$('#accounterrors').html('Current password cannot be empty.');
-
+		
         return false; 
     } 
 	
@@ -17,11 +19,10 @@ function showPasswordRequest(formData, jqForm, options) {
  	
  
 function showPasswordResponse(responseText, statusText, xhr, $form)  { 
-    
-	
 
 	if(responseText.indexOf('<error>') > -1){
 	//alert('error detected');
+		
 		$("#accounterrors").html(responseText.between("<error>","</error>"));
 	} else { 
 		$('#accounterrors').html('Password successfully changed.');
@@ -48,7 +49,7 @@ function showEmailResponse(responseText, stsatusText, xhr, $form)  {
 }
 
 function showPasswordResetRequest(formData, jqForm, options) {
-
+	$('#resetbutton').hide();
     //no local validation on email address
     return true; 
 } 
@@ -58,8 +59,10 @@ function showPasswordResetResponse(responseText, stsatusText, xhr, $form)  {
     
 	if(responseText.indexOf('<error>') > -1){
 	//alert('error detected');
+		$('#resetbutton').show();
 		$("#accounterrors").html(responseText.between("<error>","</error>"));
 	} else { 
+		$('#passwordresetform').hide();
 		$('#accounterrors').html('Check your email for a link to reset your password.');
 	}
 	
