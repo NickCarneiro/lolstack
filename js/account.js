@@ -8,7 +8,7 @@ function showPasswordRequest(formData, jqForm, options) {
     if (!form.current_password.value || form.current_password.value.trim() == "") { 
 		//alert('empty');
 		$('#accounterrors').html('Current password cannot be empty.');
-		
+		$("#picerrorscontainer").animate({ borderColor: "#F05A22" }, 300).effect("shake", { times:3 }, 100);
         return false; 
     } 
 	
@@ -24,8 +24,11 @@ function showPasswordResponse(responseText, statusText, xhr, $form)  {
 	//alert('error detected');
 		
 		$("#accounterrors").html(responseText.between("<error>","</error>"));
+		$("#picerrorscontainer").animate({ borderColor: "#F05A22" }, 300).effect("shake", { times:3 }, 100);
 	} else { 
 		$('#accounterrors').html('Password successfully changed.');
+		$("#picerrorscontainer").animate({ borderColor: "#A8D8D8" }, 300)
+		$('#picerrorscontainer').effect("bounce", { times:3 }, 100);
 	}
 	
 }
@@ -42,8 +45,12 @@ function showEmailResponse(responseText, stsatusText, xhr, $form)  {
 	if(responseText.indexOf('<error>') > -1){
 	//alert('error detected');
 		$("#accounterrors").html(responseText.between("<error>","</error>"));
+		$("#picerrorscontainer").animate({ borderColor: "#F05A22" }, 300).effect("shake", { times:3 }, 100);
 	} else { 
 		$('#accounterrors').html('Email successfully changed.');
+		$("#picerrorscontainer").animate({ borderColor: "#A8D8D8" }, 300)
+		$('#picerrorscontainer').effect("bounce", { times:3 }, 100);
+		
 	}
 	
 }
@@ -61,9 +68,14 @@ function showPasswordResetResponse(responseText, stsatusText, xhr, $form)  {
 	//alert('error detected');
 		$('#resetbutton').show();
 		$("#accounterrors").html(responseText.between("<error>","</error>"));
+		$("#picerrorscontainer").animate({ borderColor: "#F05A22" }, 300).effect("shake", { times:3 }, 100);
+		
+		
 	} else { 
 		$('#passwordresetform').hide();
 		$('#accounterrors').html('Check your email for a link to reset your password.');
+		$("#picerrorscontainer").animate({ borderColor: "#A8D8D8" }, 300)
+		$('#picerrorscontainer').effect("bounce", { times:3 }, 100);
 	}
 	
 }
