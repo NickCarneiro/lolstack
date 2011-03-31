@@ -5,7 +5,7 @@ renderHeader("Reset password");
 //include form javascript
 echo('<script type="text/javascript" src="js/picform.js"></script>');
 
-$vitals = User::getVitals($_SESSION['userid']);
+
 
 ?>
 <script type="text/javascript" src="js/account.js"></script>

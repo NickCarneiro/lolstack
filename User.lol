@@ -78,7 +78,7 @@ class User {
 			  </head>
 			  <body>
 					<p>Click the link below to reset your password </p>
-					<a href="http://lolstack.com/reset.lol?key='.$key.'&username='.$username.'">https://lolstack.com/reset.lol?key='.$key.'&username='.$key.'</a><br>
+					<a href="http://lolstack.com/reset.lol?key='.$key.'&username='.$username.'">https://lolstack.com/reset.lol?key='.$key.'&username='.$username.'</a><br>
 					<br>
 					If you do not want to reset your lolstack password, ignore this email.
 					<br>
@@ -188,6 +188,14 @@ class User {
 		$query = sprintf("UPDATE users SET password='%s'
 		WHERE username='%s'",
 		mysql_real_escape_string(md5($newpassword)),
+		mysql_real_escape_string($username));
+		$result = mysql_query($query);
+		if (!$result){
+			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
+			return false;
+		}
+		//delete row in reset table
+		$query = sprintf("DELETE FROM resets WHERE user_id IN(SELECT id FROM users WHERE username='%s')",
 		mysql_real_escape_string($username));
 		$result = mysql_query($query);
 		if (!$result){

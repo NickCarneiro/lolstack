@@ -3,8 +3,12 @@
 
 
 include_once("header.lol");
-				  
+if(isset($_SESSION['username'])){
+	header("Location: /");
+	die();
+}				  
 renderHeader("Reset password");
+
 //include form javascript
 echo('<script type="text/javascript" src="js/picform.js"></script>');
 
