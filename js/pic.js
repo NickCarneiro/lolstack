@@ -30,7 +30,7 @@ $(document).ready(function(){
 	 //alert('resizing from ' + width + ' ' + height+'\n'+
 	 //'to orig width: ' + orig_width);
 		if(width == orig_width ){
-			//alert('shrinking');
+			alert('shrinking');
 			//image at full size. shrink down	
 			//shrink image
 			$( "#theActualPic" ).aeImageResize({ height: 800, width: 940 });
