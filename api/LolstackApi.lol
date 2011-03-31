@@ -50,7 +50,7 @@ class LolstackApi {
 				//echo("URL: ".LolstackApi::full_url());
 				$sig = LolstackApi::calcSignatureREST($secretKey, LolstackApi::full_url(), $data,$requestData->getMethod());
 				echo('\n');			//Debug output
-				echo("SIG: ".$sig);	//Debug output
+				//echo("SIG: ".$sig);	//Debug output
 				echo('\n');
 				$data['oauth_signature'] = urlencode($data['oauth_signature']);
 				echo("GIVEN SIG: ".$data['oauth_signature']);		//Debug output
