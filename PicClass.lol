@@ -108,7 +108,7 @@ class PicClass{
 		}
 		
 		if(mysql_num_rows($result) == 0){
-			error_log("no rows returned: ".mysql_error()."\nOriginal query: $query\n");
+			//error_log("no rows returned: ".mysql_error()."\nOriginal query: $query\n");
 			return false;
 		}
 		

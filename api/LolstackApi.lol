@@ -47,12 +47,15 @@ class LolstackApi {
 				if(isset($data['image'])){
 					unset ($data['image']);
 				}
-				echo("URL: ".LolstackApi::full_url());
+				//echo("URL: ".LolstackApi::full_url());
 				$sig = LolstackApi::calcSignatureREST($secretKey, LolstackApi::full_url(), $data,$requestData->getMethod());
+				//echo('\n');
+				//echo("SIG: ".$sig);
 				echo('\n');
-				echo("SIG: ".$sig);
-				echo('\n');
-				echo("GIVEN SIG: ".$data['oauth_signature']);
+				$data['oauth_signature'] = urlencode($data['oauth_signature']);
+				//echo("GIVEN SIG: ".$data['oauth_signature']);
+				error_log("given sig:".$data['oauth_signature']);
+				error_log("calc'd sig:".$sig);
 				echo('\n');
 				if ($sig != $data['oauth_signature']){
 					throw new Exception("Incorrect signature","401");
@@ -266,7 +269,9 @@ class LolstackApi {
 		if(!isset($params['page'])){
 			throw new Exception("Missing parameter: page","400");
 		}
-		if (!in_array($params['category'], $categories)){
+		if($params['category'] == 'all'){
+			$params['category'] = '%';
+		} else if (!in_array($params['category'], $categories)){
 			throw new Exception("Invalid category","400");
 		}
 		$listing = PicClass::picList($params['page'], $params['category'],$params['timeframe'],$params['user_id']);
@@ -313,8 +318,8 @@ class LolstackApi {
 		*/
 		$req = OAuthRequest::from_request($httpMethod,$httpUrl, $parameters);
 		$baseString = $req->get_signature_base_string(); 
-		echo("##SBS##: ".$baseString);
-		return  base64_encode(hash_hmac('sha1', $baseString, $secretKey, true));
+		//echo("##SBS##: ".$baseString);
+		return  urlencode(base64_encode(hash_hmac('sha1', $baseString, $secretKey, true)));
 	}
 	static function get_string_between($string, $start, $end){
 		$string = " ".$string;
