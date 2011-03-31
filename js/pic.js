@@ -8,7 +8,7 @@ $(document).ready(function(){
 	$("#newcomment").hide();
 	
 	//resize pic to fit screen
-	$("#theActualPic").load(function(){
+	$(window).load(function(){
 		
 		orig_width = $("#theActualPic").width();
 		orig_height = $("#theActualPic").height();
@@ -17,6 +17,8 @@ $(document).ready(function(){
 		//shrink image
 			first_load = 1;
 			$( "#theActualPic" ).aeImageResize({ height: 800, width: 940 });
+			
+			
 		}
 		
 	});
@@ -30,7 +32,7 @@ $(document).ready(function(){
 	 //alert('resizing from ' + width + ' ' + height+'\n'+
 	 //'to orig width: ' + orig_width);
 		if(width == orig_width ){
-			alert('shrinking');
+			//alert('shrinking');
 			//image at full size. shrink down	
 			//shrink image
 			$( "#theActualPic" ).aeImageResize({ height: 800, width: 940 });
