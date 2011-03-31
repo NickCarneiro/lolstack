@@ -1,6 +1,6 @@
 <?php
 include_once("header.lol");
-
+//
 if (isset($_GET['id'])){
 	//error_log('get id '.$_GET['id']);
 	if (is_numeric($_GET['id'])){
