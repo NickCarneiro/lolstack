@@ -41,7 +41,7 @@ if (isset($_GET['id'])){
 			echo("<div class='titlecontainer'>
 			<h1 class='pictitle'>".renderTitle($id)."</h1><br />
 				");		
-			echo('<a class="showhide" href="javascript:showHideDiv(\'pic\')">Show/Hide pic</a> &nbsp;&nbsp;&nbsp;&nbsp;<span class="clicktozoom" id="clicktozoom">Click image to zoom</span></div> 
+			echo('<a class="showhide" href="#">Show/Hide pic</a> &nbsp;&nbsp;&nbsp;&nbsp;<span class="clicktozoom" id="clicktozoom">Click image to zoom</span></div> 
 					
 			<div id="pic" class="unhidden">
 			');

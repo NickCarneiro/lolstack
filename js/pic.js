@@ -54,6 +54,11 @@ $(document).ready(function(){
 			$('#clicktozoom').show();
 		}
 	 });
+	 
+	 $(".showhide").click(function(){
+		
+		$('#pic').toggle();
+	 });
 	 $( "#theActualPic" ).mouseout(function(){
 		$('#clicktozoom').hide();
 	 });
