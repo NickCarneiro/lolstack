@@ -123,11 +123,12 @@ function showCommentResponse(responseText, statusText, xhr, $form)  {
 
 function showDescResponse(responseText, statusText, xhr, $form)  {
 	//alert('descresponse '+responseText);
-	if(responseText.indexOf('<error>') > -1){
+	var responseData = jQuery.parseJSON( responseText );
+	if(responseData['error'] != undefined){
 		alert('error detected: ' + responseText);			
 	} else {
-		var desc = responseText.between('<desc>','</desc>');
-		$('#picdescription').html(desc);
+		
+		$('#picdescription').html(responseData['desc']);
 	}
 }
 $(document).ready(function(){
@@ -169,18 +170,19 @@ $(document).ready(function(){
 				existing_comment = '';
 			});
 			$(".editdesc").live('click', function () {
+				
 				//save original desc in case of cancel
 				existing_comment = $('#picdescription').html();
 				//get description and display as form
 				var picid = $(this).attr('id').substr(9);
 				$.post("processPic.lol", {picid: picid, getdesc: "true" },
 				function(data){
-					
-					if (data.indexOf('<error>') > -1){
-						alert("error fetching description for desc edit " + data.between('<error>','</error>'));
+					var responseData = jQuery.parseJSON( data );
+					if(responseData['error'] != undefined){	
+						alert("Error fetching description for desc edit: " + responseData['error']);
 					} else {
 						
-						var comment_orig = data.between('<desc>','</desc>');
+						var comment_orig = responseData['desc'];
 						//original means unparsed bbcode from database
 						//existing means already rendered comment on page
 						

@@ -1,4 +1,5 @@
 <?php
+
 include_once("header.lol");
 
 
@@ -20,13 +21,13 @@ if (isset($_POST['getdesc'])){
 	//user is trying to edit a description
 	try {
 		if(!isset($_SESSION['userid'])){
-			throw new Exception('<error>You must be logged in to edit a description.</error>');
+			throw new Exception('You must be logged in to edit a description.');
 		}
 		if(!isset($_POST['picid'])){
-			throw new Exception('<error>No pic id.</error>');
+			throw new Exception('No pic id.');
 		}
 		if(!is_numeric($_POST['picid'])){
-			throw new Exception('<error>Invalid pic id.</error>');
+			throw new Exception('Invalid pic id.');
 		}
 		$query = sprintf("SELECT description from pics WHERE id=%d AND user_id=%d",
 		mysql_real_escape_string($_POST['picid']),
@@ -34,14 +35,15 @@ if (isset($_POST['getdesc'])){
 		$result = mysql_query($query);
 		if (!$result){
 			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
-			throw new Exception("<error>Database trouble.</error>");
+			throw new Exception("Database trouble.");
 		}
 		$row = mysql_fetch_row($result);
 		
-		echo "<desc>".$row[0]."</desc>";
+		//echo "<desc>".$row[0]."</desc>";
+		echo(json_encode(Array("message"=>"success","desc"=>$row[0])));	
 	}
 	catch(Exception $e){
-		echo $e->getMessage();
+		echo(json_encode(Array("error"=>$e->getMessage())));
 	}
 }	
 else if (isset($_POST['descformarea'])){
@@ -49,13 +51,13 @@ else if (isset($_POST['descformarea'])){
 	//user is submitting an edited description
 	try {
 		if(!isset($_POST['picid'])){
-			throw new Exception('<error>No pic id.</error>');
+			throw new Exception('No pic id.');
 		}
 		if(!isset($_POST['descformarea'])){
-			throw new Exception('<error>No pic id.</error>');
+			throw new Exception('No pic id.');
 		}
 		if(!isset($_SESSION['userid'])){
-			throw new Exception('<error>You must be logged in to edit a description.</error>');
+			throw new Exception('You must be logged in to edit a description.');
 		}
 		$newdesc = $_POST['descformarea'];
 		$newdesc = $_POST['descformarea'];
@@ -67,15 +69,18 @@ else if (isset($_POST['descformarea'])){
 		$result = mysql_query($query);
 		if (!$result){
 			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
-			throw new Exception("<error>Database trouble.</error>");
+			throw new Exception("Database trouble.");
 		}
 		
-		echo("<desc>".Comments::bbParse(htmlentities($newdesc,ENT_QUOTES,'UTF-8'))."</desc>");
+		echo(json_encode(Array(
+		"desc" => Comments::bbParse(
+		htmlentities($newdesc,ENT_QUOTES,'UTF-8')))));
 	}catch(Exception $e){
-		echo $e->getMessage();
+		echo(json_encode(Array("error"=>$e->getMessage())));
 	}
 }			  
 else if (isset($_POST['category'])){
+
 //post a new pic
 	try {
 	
@@ -83,7 +88,7 @@ else if (isset($_POST['category'])){
 			//error_log($key." ".$post);
 		}
 		if(!isset($_SESSION['userid'])){
-			throw new Exception('<error>You must be logged in to post a pic.</error>');
+			throw new Exception('You must be logged in to post a pic.');
 		}
 		$userid = $_SESSION['userid'];
 		$title = $_POST['title'];
@@ -94,12 +99,12 @@ else if (isset($_POST['category'])){
 		$titlelength = strlen(trim($title));
 		if ( $titlelength == 0 || $titlelength > 300){
 			
-			throw new Exception('<error>Title must be between 1 and 300 characters.</error>');
+			throw new Exception('Title must be between 1 and 300 characters.');
 						
 		}
 		
 		if (!in_array($category,$categories)){
-			throw new Exception('<error>Invalid category.</error>');
+			throw new Exception('Invalid category.');
 		}
 		$nsfw = 0;
 		if (isset($_POST['nsfw'])){
@@ -131,7 +136,7 @@ else if (isset($_POST['category'])){
 			$targetfile = $uploaddir .$newfile;
 			
 			if (!move_uploaded_file($_FILES['pic']['tmp_name'], $targetfile)) {
-				throw new Exception( "<error>File upload failed.</error>");
+				throw new Exception( "File upload failed.");
 			}
 			//check that file is an image
 			$imageinfo = getimagesize($targetfile);
@@ -139,7 +144,7 @@ else if (isset($_POST['category'])){
 		
 		if(!$imageinfo){
 			unlink($targetfile);
-			throw new Exception( "<error>File must be an image</error>");
+			throw new Exception( "File must be an image");
 		}
 		
 		$mimetype = $imageinfo['mime'];
@@ -148,7 +153,7 @@ else if (isset($_POST['category'])){
 		if(strcmp($filetype, "gif") != 0 && strcmp($filetype,"jpeg") != 0 && strcmp($filetype,"png")){
 			error_log("filetype is: ".$filetype);
 			unlink($targetfile);
-			throw new Exception("<error>Image must be a jpeg, gif, or png file. You submitted a ".strip_tags($filetype).".</error>");
+			throw new Exception("Image must be a jpeg, gif, or png file. You submitted a ".strip_tags($filetype).".");
 
 		}
 		//if image is a png, convert to jpg
@@ -166,19 +171,19 @@ else if (isset($_POST['category'])){
 		$hashexists = Storage::checkHash($phash);
 		if ($hashexists !== true){
 			unlink($targetfile);
-			throw new Exception("<error>Image already exists in database. <a href=\"pic.lol?id=$hashexists\">View existing image</a></error>");
+			throw new Exception("Sorry, that image already exists in the database. ",$hashexists);
 		}
 		
 		//check pic resolution before storing permanently
 		$minres = 70;
 		if(!Storage::checkRes($imageinfo, $minres, $minres)){
-			throw new Exception("<error>Image too small. Minimum resolution: $minres pixels.</error>");
+			throw new Exception("Image too small. Minimum resolution: $minres pixels.");
 		}
 		
 		//add file to storage system
 		$finaldest = Storage::storePic($targetfile,$phash,$filetype);
 		if(!$finaldest){
-			throw new Exception("<error>Error storing pic.</error>");
+			throw new Exception("Error storing pic.");
 		}
 		
 		
@@ -204,7 +209,7 @@ else if (isset($_POST['category'])){
 		$result = mysql_query($query);
 		if (!$result){
 			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
-			throw new Exception("<error>Database trouble.</error>");
+			throw new Exception("Database trouble.");
 		}
 		
 		//insert tags into tags table
@@ -215,7 +220,7 @@ else if (isset($_POST['category'])){
 			$result = mysql_query($query);
 			if (!$result){
 				error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
-				throw new Exception("<error>Database trouble finding id.</error>");
+				throw new Exception("Database trouble finding id.");
 			}
 			$row = mysql_fetch_row($result);
 			$pic_id = $row[0];
@@ -232,7 +237,7 @@ else if (isset($_POST['category'])){
 				$result = mysql_query($query);
 				if (!$result){
 					error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
-					throw new Exception("<error>Database trouble on tag insertion.</error>");
+					throw new Exception("Database trouble on tag insertion.");
 				}
 			}
 		}
@@ -243,17 +248,30 @@ else if (isset($_POST['category'])){
 		$row = mysql_fetch_row($result);
 		$mirror = mirrorPic($row[0], $finaldest);
 		if (!$mirror){
-			echo ("<message>Image uploaded successfully</message> <picid>$row[0]</picid><error>failed to mirror</error>");
+			echo (json_encode(Array(
+			"message"=>"Image uploaded successfully, but failed to mirror.", 
+			"pic_id"=> "$row[0]")));
 			error_log("Image failed to mirror. Pic id: ".$row[0]);
 		} else {
-			echo ("<message>Image uploaded successfully.</message><picid>$row[0]</picid>");
+			echo (json_encode(Array(
+			"message"=>"Image uploaded successfully.", 
+			"pic_id"=> "$row[0]")));
 		}
 		
 	}
 	catch(Exception $e){
-		echo $e->getMessage();
+		if(is_numeric($e->getCode())){
+			echo(json_encode(Array(
+			"error"=>$e->getMessage(),
+			"pic_id"=>$e->getCode())));
+		} else {
+			echo(json_encode(Array(
+			"error"=>$e->getMessage())));
+		}
+		
+		
 	}
-	echo ("<br />");
+	
 }
 
 

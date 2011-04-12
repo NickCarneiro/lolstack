@@ -18,12 +18,15 @@ if (isset($_POST['email'])){
 			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
 			throw new Exception('database trouble');
 		}
+		
+		echo(json_encode(Array("message"=>"success")));
 	}catch(Exception $e){
-		echo("<error>".$e->getMessage()."</error>");
+		
+		echo(json_encode(Array("error"=>$e->getMessage())));
 	}
 }
 else if (isset($_POST['current_password'])){
-	//retrieve comment for editing
+	
 	try{
 		
 		// is user logged in?
@@ -53,11 +56,11 @@ else if (isset($_POST['current_password'])){
 			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
 			throw new Exception('database trouble');
 		}
-		
+		echo(json_encode(Array("message"=>"success")));	
 	}
 	catch(Exception $e){
 		error_log($e->getMessage());
-		echo("<error>".$e->getMessage()."</error>");
+		echo(json_encode(Array("error"=>$e->getMessage())));
 	}
 } else if(isset($_POST['reset_email'])){
 	//reset password form submitted from password.lol

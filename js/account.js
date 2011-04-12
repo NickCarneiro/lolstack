@@ -41,10 +41,9 @@ function showEmailRequest(formData, jqForm, options) {
  	
  
 function showEmailResponse(responseText, stsatusText, xhr, $form)  { 
-    
-	if(responseText.indexOf('<error>') > -1){
-	//alert('error detected');
-		$("#accounterrors").html(responseText.between("<error>","</error>"));
+    var responseData = jQuery.parseJSON( responseText );
+	if(responseData['error'] != undefined){
+		$("#accounterrors").html(responseData["error"]);
 		$("#picerrorscontainer").animate({ borderColor: "#F05A22" }, 300).effect("shake", { times:3 }, 100);
 	} else { 
 		$('#accounterrors').html('Email successfully changed.');
@@ -64,7 +63,8 @@ function showPasswordResetRequest(formData, jqForm, options) {
  
 function showPasswordResetResponse(responseText, stsatusText, xhr, $form)  { 
     
-	if(responseText.indexOf('<error>') > -1){
+	var responseData = jQuery.parseJSON( responseText );
+	if(responseData['error'] != undefined){
 	//alert('error detected');
 		$('#resetbutton').show();
 		$("#accounterrors").html(responseText.between("<error>","</error>"));
@@ -109,7 +109,7 @@ $(document).ready(function(){
         url:       'processaccount.lol',        // override for form's 'action' attribute 
         type:      'post'        // 'get' or 'post', override for form's 'method' attribute 
         
-    }; 
+		}; 
         $(this).ajaxSubmit(optionsSubmit);  
         return false; 
     });

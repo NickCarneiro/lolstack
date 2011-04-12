@@ -25,7 +25,7 @@ String.prototype.between = function(prefix, suffix) {
 }
 
 // pre-submit callback 
-function showRequest(formData, jqForm, options) { 
+function showPicRequest(formData, jqForm, options) { 
 	//TODO: add form validation here.
     // formData is an array; here we use $.param to convert it to a string to display it 
     // but the form plugin does this for you automatically when it submits the data 
@@ -68,7 +68,7 @@ function showRequest(formData, jqForm, options) {
  	
  
 // post-submit callback 
-function showResponse(responseText, statusText, xhr, $form)  { 
+function showPicResponse(responseText, statusText, xhr, $form)  { 
     // for normal html responses, the first argument to the success callback 
     // is the XMLHttpRequest object's responseText property 
  
@@ -83,20 +83,20 @@ function showResponse(responseText, statusText, xhr, $form)  {
     //alert('status: ' + statusText + '\n\nresponseText: \n' + responseText ); 
 	
 	//close processing dialog
+	responseText = responseText.replace('<head></head><body>','');
+	responseText = responseText.replace('</body>','');
+	var responseData = jQuery.parseJSON( responseText );
 	$("#processingdialog").dialog("close");
-	responseText = responseText.toLowerCase();
-	if(responseText.indexOf('uploaded successfully') > -1){	
+	
+	if(responseData['error'] == undefined){	
 		
-		//$('#submitpicdiv').addClass('hidden');
-		//launch dialog
-		//$('#successdialog').dialog('open');
-		//$("#debug").html(responseText);
-		
-		
-		$("#successdialog").data('link', responseText).dialog('open');
+		$("#successdialog").data('pic_id', responseData['pic_id']).dialog('open');
 	} else {
 		
-		$("#picerrors").html(responseText.between("<error>","</error>"));
+		if(responseData['pic_id'] != undefined){
+			$("#picerrors").html(responseData['error'] + "<a href='pic.lol?id="+responseData['pic_id']+"'>View existing image</a>");
+		}
+		
 		$('#picerrorscontainer').removeClass('entry');
 		$('#picerrorscontainer').addClass('entry_glow');
 	}
@@ -222,11 +222,9 @@ $("#formattinglink").live('click', function () {
 		buttons: {
 			"Go to image": function() { 
 				$(this).dialog("close");
-				if($(this).data('link').indexOf("<error>") > -1){
-					$("successerror").html("Warning: " + $(this).data('link').between("<error>","</error>"));
-				}
-				var picid = $('#picid').attr('value');
-				window.location.replace('pic.lol?id=' + $(this).data('link').between('<picid>','</picid>'));
+				
+				
+				window.location.replace('pic.lol?id=' + $(this).data('pic_id'));
 				//window.location.reload(true);
 			}, 
 		}
@@ -238,27 +236,23 @@ $("#formattinglink").live('click', function () {
 		width: 400
 	});
 	
-	var options = { 
-        target:        '#picerrors',   // target element(s) to be updated with server response 
-        beforeSubmit:  showRequest,  // pre-submit callback 
-        success:       showResponse,  // post-submit callback 
- 
-        // other available options: 
-        url:       'processPic.lol',        // override for form's 'action' attribute 
-        type:      'post'        // 'get' or 'post', override for form's 'method' attribute 
-        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
-        //clearForm: true        // clear all form fields after successful submit 
-        //resetForm: true        // reset the form after successful submit 
- 
-        // $.ajax options can be used here too, for example: 
-        //timeout:   3000 
-    }; 
+	
  
     // bind to the form's submit event 
     $('#submitpic').submit(function() { 
+		var optionsSubmit = { 
+			//target:        '#picerrors',   // target element(s) to be updated with server response 
+			beforeSubmit:  showPicRequest,  // pre-submit callback 
+			success:       showPicResponse,  // post-submit callback 
+	 
+			// other available options: 
+			url:       'processPic.lol',        // override for form's 'action' attribute 
+			type:      'post'        // 'get' or 'post', override for form's 'method' attribute 
+			
+			}; 
         // inside event callbacks 'this' is the DOM element so we first 
         // wrap it in a jQuery object and then invoke ajaxSubmit 
-        $(this).ajaxSubmit(options); 
+        $(this).ajaxSubmit(optionsSubmit); 
  
         // !!! Important !!! 
         // always return false to prevent standard browser submit and page navigation 
