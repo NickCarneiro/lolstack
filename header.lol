@@ -1,4 +1,5 @@
 ﻿<?php
+session_start();
 include_once("Database.lol");
 include_once("User.lol");
 include_once("Auth.lol");
@@ -29,7 +30,7 @@ else {
 	$headercat ='funny';
 }
 function renderHeader($title){
-session_start();
+
 	global $categories;
 	global $headerdate;
 	global $headercat;

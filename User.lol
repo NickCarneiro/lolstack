@@ -499,15 +499,18 @@ class User {
 	
 	public static function loginUser($userid){
 		$_SESSION['userid'] = $userid;
-		$query = "SELECT username FROM users WHERE id=$userid";
+		$query = "SELECT username, privilege FROM users WHERE id=$userid";
 		$result = mysql_query($query);
 		if (!$result){
 			error_log("SQL error: ".mysql_error()."\nOriginal query: $query\n");
 		}
 		$row = mysql_fetch_row($result);
 		$username = $row[0];
+		$privilege = $row[1];
 		$_SESSION['username'] = $username;
-
+		if($privilege == 1){
+			$_SESSION['admin'] = 1;
+		}
 		//update ip and login time
 		$query = "UPDATE users SET last_login=FROM_UNIXTIME(".time()."), 
 		last_ip='".$_SERVER['REMOTE_ADDR']."' WHERE id=$userid";

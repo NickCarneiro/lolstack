@@ -1,11 +1,12 @@
 <?php
 include_once("header.lol");
-if(!Auth::isAdmin()){
-	header("Location: login.lol");
+renderHeader("Admin panel");
+if(!isset($_SESSION['admin'])){
+	header("Location: /");
 	die();
 }
 
-renderHeader("Admin panel");
+
 
 
 $query = "SELECT COUNT(*) FROM pics";		
@@ -57,7 +58,7 @@ user id: <input name="ban_user_id" type="text" /><br />
 </div>
 
 <div class="entry omega grid_4">
-<span class="pic_instructions">Mark NSFW</span><br />
+<span class="pic_instructions">Toggle NSFW</span><br />
 <form action="processAdmin.lol" method="post">
 pic id: <input name="nsfw_id" type="text" /><br />
 <input type="submit" name="submit" value="submit" />

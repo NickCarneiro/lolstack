@@ -1,6 +1,6 @@
 <?php
 include_once("header.lol");
-if(!Auth::isAdmin()){
+if(!isset($_SESSION['admin'])){
 	header("Location: login.lol");
 	die();
 }
@@ -77,15 +77,15 @@ if (isset($_POST['delete'])){
 		echo("user banned");
 	}
 	
-} else if(isset($_POST['mark_nsfw']){
-	$query = sprintf("UPDATE pics SET nsfw=(XOR 1) WHERE id=%d",
-	mysql_real_escape_string($_POST['ban_user_id']));
+} else if(isset($_POST['nsfw_id'])){
+	$query = sprintf("UPDATE pics SET nsfw=nsfw ^ 1 WHERE id=%d",
+	mysql_real_escape_string($_POST['nsfw_id']));
 	$result = mysql_query($query);
 	
 	if (!$result){
 		echo("SQL error: ".mysql_error()."\nOriginal query: $query\n <br>");	
 	} else {
-		echo("pic marked NSFW");
+		echo("NSFW toggled on pic ".$_POST['nsfw_id']);
 	}
 	
 }

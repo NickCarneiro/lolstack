@@ -47,15 +47,6 @@ public static function curPageURL() {
  return $pageURL;
 }
 
-public static function isAdmin(){
-	if (!isLoggedIn()){
-		return false;
-	}
-	if (isset($_SESSION['admin'])){
-		return true;
-	} else {
-		return false;
-	}
-}
+
 }
 ?>
