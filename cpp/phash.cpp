@@ -60,7 +60,7 @@ int main(int argc , char *argv[]){
   struct connection_details mysqlD;
   mysqlD.server = "localhost";  // where the mysql database is
   mysqlD.user = "root";		// the root user of mysql	
-  mysqlD.password = "anonym00se"; // the password of the root user in mysql
+  mysqlD.password = "InterestingBlowhol3"; // the password of the root user in mysql
   mysqlD.database = "lolstack";	// the databse to pick
  
  //arg 1= action: compare or gethash

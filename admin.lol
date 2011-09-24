@@ -55,6 +55,14 @@ user id: <input name="ban_user_id" type="text" /><br />
 <input type="submit" name="submit" value="submit" />
 </form>
 </div>
+
+<div class="entry omega grid_4">
+<span class="pic_instructions">Mark NSFW</span><br />
+<form action="processAdmin.lol" method="post">
+pic id: <input name="nsfw_id" type="text" /><br />
+<input type="submit" name="submit" value="submit" />
+</form>
+</div>
 <?php
 echo("</div>");
 include_once("htmlfooter.lol");

@@ -3,6 +3,7 @@ include_once("Imgur.lol");
 class Storage{
 
 	function png2jpg($originalFile, $outputFile, $quality) {
+		
 		$image = imagecreatefrompng($originalFile);
 		imagejpeg($image, $outputFile, $quality);
 		imagedestroy($image);

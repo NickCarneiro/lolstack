@@ -10,7 +10,7 @@ include_once("Notifications.lol");
 include_once("Categories.lol");
 include_once("Sidebar.lol");
 include_once("Lolbucks.lol");
-session_start();
+
 Database::DatabaseConnect();
 date_default_timezone_set('America/Chicago');
 
@@ -29,6 +29,7 @@ else {
 	$headercat ='funny';
 }
 function renderHeader($title){
+session_start();
 	global $categories;
 	global $headerdate;
 	global $headercat;

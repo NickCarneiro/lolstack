@@ -73,8 +73,20 @@ if (isset($_POST['delete'])){
 	
 	if (!$result){
 		echo("SQL error: ".mysql_error()."\nOriginal query: $query\n <br>");	
+	} else {
+		echo("user banned");
 	}
-	echo("user banned");
+	
+} else if(isset($_POST['mark_nsfw']){
+	$query = sprintf("UPDATE pics SET nsfw=(XOR 1) WHERE id=%d",
+	mysql_real_escape_string($_POST['ban_user_id']));
+	$result = mysql_query($query);
+	
+	if (!$result){
+		echo("SQL error: ".mysql_error()."\nOriginal query: $query\n <br>");	
+	} else {
+		echo("pic marked NSFW");
+	}
 	
 }
 echo ("<br>

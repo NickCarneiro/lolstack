@@ -1,5 +1,5 @@
 <?php
-include("header.lol");
+include_once("header.lol");
 include_once("BotGlue.lol");
 class Bots {
 	public static function createBot($username){

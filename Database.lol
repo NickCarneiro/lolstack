@@ -1,7 +1,7 @@
 <?php
 class Database {
 public static function DatabaseConnect(){
-		$link = mysql_connect('localhost', 'root', 'anonym00se');
+		$link = mysql_connect('localhost', 'root', 'InterestingBlowhol3');
 		if (!$link) {
 			error_log("could not connect to database");
 			die('Not connected : ' . mysql_error());
